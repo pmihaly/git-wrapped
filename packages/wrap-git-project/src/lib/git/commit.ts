@@ -1,7 +1,7 @@
-import { CommitObject, ReadCommitResult } from 'isomorphic-git'
+import { fromUnixTime } from 'date-fns'
 import * as O from 'fp-ts/Option'
 import * as S from 'fp-ts/string'
-import { fromUnixTime } from 'date-fns'
+import { CommitObject, ReadCommitResult } from 'isomorphic-git'
 
 export type Commit = {
   hash: Sha1ObjectId

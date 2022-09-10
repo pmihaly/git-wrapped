@@ -1,8 +1,9 @@
 import { some } from 'fp-ts/Option'
 import { CommitObject, ReadCommitResult } from 'isomorphic-git'
+
 import {
-  fromIsomorphicGitCommit,
   fromIsomorphicGitAuthor,
+  fromIsomorphicGitCommit,
   fromIsomorphicGitCommitter,
 } from '.'
 
