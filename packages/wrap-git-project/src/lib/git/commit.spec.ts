@@ -1,47 +1,14 @@
 import { some } from 'fp-ts/Option'
-import { CommitObject, ReadCommitResult } from 'isomorphic-git'
+import { ReadCommitResult } from 'isomorphic-git'
 
 import {
+  createIsomorphicAuthor,
+  createIsomorphicCommit,
+  createIsomorphicCommitter,
   fromIsomorphicGitAuthor,
   fromIsomorphicGitCommit,
   fromIsomorphicGitCommitter,
 } from '.'
-
-const createIsomorphicCommit = (
-  c: Partial<ReadCommitResult>
-): ReadCommitResult => ({
-  oid: 'test oid',
-  commit: {
-    message: 'commit message',
-    tree: 'commit tree',
-    parent: ['parent1', 'parent2'],
-    author: createIsomorphicAuthor({}),
-    committer: createIsomorphicCommitter({}),
-    gpgsig: 'gpg signature',
-  },
-  payload: 'gpg payload',
-  ...c,
-})
-
-const createIsomorphicAuthor = (
-  a: Partial<CommitObject['author']>
-): CommitObject['author'] => ({
-  name: 'test author',
-  email: 'author@test.com',
-  timestamp: 123,
-  timezoneOffset: 123,
-  ...a,
-})
-
-const createIsomorphicCommitter = (
-  c: Partial<CommitObject['committer']>
-): CommitObject['committer'] => ({
-  ...createIsomorphicAuthor({
-    name: 'test committer',
-    email: 'committer@test.com',
-  }),
-  ...c,
-})
 
 describe('Commit', () => {
   describe('fromIsomorphicGitCommit', () => {

@@ -24,6 +24,22 @@ export const fromIsomorphicGitCommit: FromIsomorphicGitCommit = (c) => ({
   gpgSignature: O.fromPredicate(S.isString)(c.commit.gpgsig),
 })
 
+export const createIsomorphicCommit = (
+  c: Partial<ReadCommitResult>
+): ReadCommitResult => ({
+  oid: 'test oid',
+  commit: {
+    message: 'commit message',
+    tree: 'commit tree',
+    parent: ['parent1', 'parent2'],
+    author: createIsomorphicAuthor({}),
+    committer: createIsomorphicCommitter({}),
+    gpgsig: 'gpg signature',
+  },
+  payload: 'gpg payload',
+  ...c,
+})
+
 export type Sha1ObjectId = string
 
 export type CommitMessage = string
@@ -43,6 +59,16 @@ export const fromIsomorphicGitAuthor: FromIsomorphicGitAuthor = (a) => ({
   writtenAt: fromUnixTime(a.timestamp),
 })
 
+export const createIsomorphicAuthor = (
+  a: Partial<CommitObject['author']>
+): CommitObject['author'] => ({
+  name: 'test author',
+  email: 'author@test.com',
+  timestamp: 123,
+  timezoneOffset: 123,
+  ...a,
+})
+
 export type Committer = {
   name: string
   email: string
@@ -56,4 +82,14 @@ export const fromIsomorphicGitCommitter: FromIsomorphicGitCommitter = (a) => ({
   name: a.name,
   email: a.email,
   committedAt: fromUnixTime(a.timestamp),
+})
+
+export const createIsomorphicCommitter = (
+  c: Partial<CommitObject['committer']>
+): CommitObject['committer'] => ({
+  ...createIsomorphicAuthor({
+    name: 'test committer',
+    email: 'committer@test.com',
+  }),
+  ...c,
 })
