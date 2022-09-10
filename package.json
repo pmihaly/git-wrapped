@@ -1,7 +1,7 @@
 {
   "name": "git-wrapped",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "GPLv3",
   "scripts": {},
   "private": true,
   "devDependencies": {
