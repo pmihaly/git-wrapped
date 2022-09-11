@@ -1,3 +1,4 @@
+import * as IO from 'fp-ts/IO'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as TE from 'fp-ts/TaskEither'
 import { constant, identity, pipe } from 'fp-ts/function'
@@ -7,7 +8,7 @@ import { PromiseFsClient } from 'isomorphic-git'
 import { Commit, fromIsomorphicGitCommit } from '.'
 
 export type GitInteractor = {
-  log: () => TE.TaskEither<string, ReadonlyArray<Commit>>
+  log: IO.IO<TE.TaskEither<string, ReadonlyArray<Commit>>>
 }
 
 export type IsomorphicGit = typeof git
