@@ -1,7 +1,9 @@
+import * as SIO from 'fp-ts-std/IO'
+import * as ST from 'fp-ts-std/Task'
 import * as E from 'fp-ts/Either'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { constant, identity, pipe } from 'fp-ts/function'
-import { isLeft } from 'fp-ts/lib/Either'
+import { get } from 'spectacles-ts'
 
 import {
   Commit,
@@ -26,8 +28,10 @@ describe('GitInteractor', () => {
 
         const errorOrCommits = await pipe(
           fromIsomorphicGit(isomorphicGit)(fs)(gitDir),
-          (x) => x.log()
-        )()
+          get('log'),
+          SIO.execute,
+          ST.execute
+        )
 
         expect(E.isRight(errorOrCommits)).toBeTruthy
         expect(
@@ -49,10 +53,12 @@ describe('GitInteractor', () => {
 
         const errorOrCommits = await pipe(
           fromIsomorphicGit(isomorphicGit)(fs)(gitDir),
-          (x) => x.log()
-        )()
+          get('log'),
+          SIO.execute,
+          ST.execute
+        )
 
-        expect(isLeft(errorOrCommits)).toBeTruthy
+        expect(E.isLeft(errorOrCommits)).toBeTruthy
         expect(
           E.match<string, ReadonlyArray<Commit>, string>(
             identity,
