@@ -12,7 +12,7 @@ import {
   fromIsomorphicGitCommit,
 } from '.'
 
-describe('GitInteractor', () => {
+describe('Git', () => {
   describe('log', () => {
     describe('fromIsomorphicGit', () => {
       it('should return taskEither of list of commits', async () => {

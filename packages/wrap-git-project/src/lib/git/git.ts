@@ -7,7 +7,7 @@ import { PromiseFsClient } from 'isomorphic-git'
 
 import { Commit, fromIsomorphicGitCommit } from '.'
 
-export type GitInteractor = {
+export type Git = {
   log: IO.IO<TE.TaskEither<string, ReadonlyArray<Commit>>>
 }
 
@@ -15,7 +15,7 @@ export type IsomorphicGit = typeof git
 
 export type FromIsomorphicGit = (
   ig: IsomorphicGit
-) => (fs: PromiseFsClient) => (gitDir: string) => GitInteractor
+) => (fs: PromiseFsClient) => (gitDir: string) => Git
 
 export const fromIsomorphicGit: FromIsomorphicGit =
   (isomorphicGit) => (fs) => (gitDir) => ({
