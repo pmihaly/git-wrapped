@@ -1,20 +1,12 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 
-import { Chart, createChart } from '.'
+import { createChart, createFakeChart } from '.'
 
 describe('Chart', () => {
   describe('createChart', () => {
     it('should construct a valid chart', () => {
-      const toCreate: Chart = {
-        type: 'bar',
-        labels: [
-          'label 1',
-          'label 2',
-        ] as unknown as RNEA.ReadonlyNonEmptyArray<NES.NonEmptyString>,
-        datasets: [{ data: [1, 2] }, { data: [3, 4] }],
-      }
+      const toCreate = createFakeChart({})
 
       const chart = createChart(toCreate)
 
@@ -22,14 +14,13 @@ describe('Chart', () => {
     })
 
     it('should not construct chart if number of labels is not equal the number of data in datasets', () => {
-      const toCreate: Chart = {
-        type: 'bar',
+      const toCreate = createFakeChart({
         labels: [
-          'label 1',
-          'label 2',
-        ] as unknown as RNEA.ReadonlyNonEmptyArray<NES.NonEmptyString>,
+          NES.unsafeFromString('label 1'),
+          NES.unsafeFromString('label 2'),
+        ],
         datasets: [{ data: [1, 2] }, { data: [3] }],
-      }
+      })
 
       const chart = createChart(toCreate)
 

@@ -36,3 +36,10 @@ export const createChart: CreateChart = flow(
   O.some,
   O.chain(O.fromPredicate(hasDatapointForAllLabels))
 )
+
+export const createFakeChart = (c: Partial<Chart>): Chart => ({
+  type: 'bar',
+  labels: [NES.unsafeFromString('label 1'), NES.unsafeFromString('label 2')],
+  datasets: [{ data: [1, 2] }, { data: [3, 4] }],
+  ...c,
+})
