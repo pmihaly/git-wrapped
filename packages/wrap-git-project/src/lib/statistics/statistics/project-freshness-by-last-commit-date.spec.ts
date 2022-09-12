@@ -1,15 +1,40 @@
+import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
 
-import { calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
+import { DayRangesToFreshness, calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
 import { createFakeCommit, createFakeCommitter, createFakeGitRepo } from '../../git'
 
 describe('ProjectFreshnessByLastCommitDate', () => {
   describe('calculateProjectFreshness', () => {
     it('should calculate freshness matching the range', () => {
-      const daysToFreshness = [
-        { range: { min: 0, max: 1 }, label: 'too fresh' },
-        { range: { min: 2, max: 4 }, label: 'just right' },
-        { range: { min: 5, max: 100 }, label: 'too stale' },
+      const daysToFreshness: DayRangesToFreshness = [
+        {
+          range: { min: 0, max: 1 },
+          freshness: {
+            label: NES.unsafeFromString('too fresh'),
+            description: O.none,
+            buildFunFacts: () => [],
+            charts: [],
+          },
+        },
+        {
+          range: { min: 2, max: 4 },
+          freshness: {
+            label: NES.unsafeFromString('just right'),
+            description: O.none,
+            buildFunFacts: () => [],
+            charts: [],
+          },
+        },
+        {
+          range: { min: 5, max: 100 },
+          freshness: {
+            label: NES.unsafeFromString('just right'),
+            description: O.none,
+            buildFunFacts: () => [],
+            charts: [],
+          },
+        },
       ]
 
       const currentDate = new Date(2012, 1, 4)
@@ -17,14 +42,38 @@ describe('ProjectFreshnessByLastCommitDate', () => {
 
       const freshness = calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
 
-      expect(freshness).toStrictEqual(O.some('just right'))
+      expect(O.isSome(freshness)).toBe(true)
     })
 
     it('should return none when has no matching range', () => {
-      const daysToFreshness = [
-        { range: { min: 0, max: 1 }, label: 'too fresh' },
-        { range: { min: 2, max: 4 }, label: 'just right' },
-        { range: { min: 5, max: 100 }, label: 'too stale' },
+      const daysToFreshness: DayRangesToFreshness = [
+        {
+          range: { min: 0, max: 1 },
+          freshness: {
+            label: NES.unsafeFromString('too fresh'),
+            description: O.none,
+            buildFunFacts: () => [],
+            charts: [],
+          },
+        },
+        {
+          range: { min: 2, max: 4 },
+          freshness: {
+            label: NES.unsafeFromString('just right'),
+            description: O.none,
+            buildFunFacts: () => [],
+            charts: [],
+          },
+        },
+        {
+          range: { min: 5, max: 100 },
+          freshness: {
+            label: NES.unsafeFromString('just right'),
+            description: O.none,
+            buildFunFacts: () => [],
+            charts: [],
+          },
+        },
       ]
 
       const currentDate = new Date(2012, 1, 1)
@@ -32,7 +81,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
 
       const freshness = calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
 
-      expect(freshness).toStrictEqual(O.none)
+      expect(O.isNone(freshness)).toBe(true)
     })
   })
 

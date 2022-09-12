@@ -1,26 +1,83 @@
 import { differenceInDays, formatDistance, intlFormat } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as NS from 'fp-ts-std/Number'
+import * as S from 'fp-ts-std/String'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { flow, pipe } from 'fp-ts/function'
+import { constant, flow, pipe } from 'fp-ts/function'
 import * as N from 'fp-ts/number'
 import { get } from 'spectacles-ts'
 
-import { CreateStatisticFrom } from '..'
+import { Chart, CreateStatisticFrom, FunFact } from '..'
 import { GitRepo } from '../..'
 
-type DayRangesToFreshness = ReadonlyArray<{
+export type DayRangesToFreshness = ReadonlyArray<{
   range: { min: number; max: number }
-  label: string
+  freshness: {
+    label: NES.NonEmptyString
+    description: O.Option<NES.NonEmptyString>
+    buildFunFacts: (x: { daysSinceLastCommit: number }) => ReadonlyArray<FunFact>
+    charts: ReadonlyArray<Chart>
+  }
 }>
 
 const dayRangesToFreshness: DayRangesToFreshness = [
-  { range: { min: 0, max: 14 }, label: 'as fresh as a banana in the store' }, // https://www.theguardian.com/lifeandstyle/2003/jul/13/foodanddrink.features18
-  { range: { min: 18, max: 30 }, label: 'as fresh as a housefly' }, // https://a-z-animals.com/blog/fly-lifespan-how-long-do-flies-live/
-  { range: { min: 30, max: 90 }, label: 'as fresh as a UHT milk can be' }, // https://foodsafety.foodscience.cornell.edu/sites/foodsafety.foodscience.cornell.edu/files/shared/documents/CU-DFScience-Notes-Milk-Pasteurization-UltraP-10-10.pdf
-  { range: { min: 14, max: 35 }, label: 'as fresh as eggs can be' }, //https://ask.usda.gov/s/article/How-long-can-you-store-eggs-in-the-refrigerator
+  {
+    range: { min: 0, max: 14 },
+    freshness: {
+      label: NES.unsafeFromString('as fresh as a banana in the store'),
+      description: O.of(
+        NES.unsafeFromString('Source: https://www.theguardian.com/lifeandstyle/2003/jul/13/foodanddrink.features18')
+      ),
+      buildFunFacts: ({ daysSinceLastCommit }) => [
+        {
+          fact: NES.unsafeFromString(
+            `A banana's shelf life in the fridge is about **7–10 days**. Your project outlives at least ${calculateBananaGenerations(
+              daysSinceLastCommit
+            ).toFixed(1)} refrigerated banana-generations.`
+          ),
+          source: NES.unsafeFromString('https://www.doesitgobad.com/banana-go-bad'),
+        },
+      ],
+      charts: [],
+    },
+  },
+  {
+    range: { min: 18, max: 30 },
+    freshness: {
+      label: NES.unsafeFromString('as fresh as a housefly'),
+      description: O.of(
+        NES.unsafeFromString('Source: https://a-z-animals.com/blog/fly-lifespan-how-long-do-flies-live/')
+      ),
+      buildFunFacts: constant([]),
+      charts: [],
+    },
+  },
+  {
+    range: { min: 30, max: 90 },
+    freshness: {
+      label: NES.unsafeFromString('as fresh as a UHT milk can be'),
+      description: O.of(
+        NES.unsafeFromString(
+          'Source: https://foodsafety.foodscience.cornell.edu/sites/foodsafety.foodscience.cornell.edu/files/shared/documents/CU-DFScience-Notes-Milk-Pasteurization-UltraP-10-10.pdf'
+        )
+      ),
+      buildFunFacts: constant([]),
+      charts: [],
+    },
+  },
+  {
+    range: { min: 14, max: 35 },
+    freshness: {
+      label: NES.unsafeFromString('as fresh as eggs can be'),
+      description: O.of(
+        NES.unsafeFromString('Source: https://ask.usda.gov/s/article/How-long-can-you-store-eggs-in-the-refrigerator')
+      ),
+      buildFunFacts: constant([]),
+      charts: [],
+    },
+  },
 ]
 
 export type ProjectFreshnessByLastCommitDate = CreateStatisticFrom<GitRepo>
@@ -38,24 +95,18 @@ export const projectFreshnessByLastCommitDate = (currentDate: Date): ProjectFres
     O.chain(({ lastCommitterName, lastCommittedAt, daysSinceLastCommit, projectFreshness }) =>
       O.of({
         name: NES.unsafeFromString('Project freshness by last commit date'),
-        headline: NES.unsafeFromString(`Your project is **${projectFreshness}**`),
+        headline: NES.unsafeFromString(`Your project is **${projectFreshness.label}**`),
         description: O.of(
           NES.unsafeFromString(
-            `Last committed **${formatDistance(lastCommittedAt, currentDate, {
+            `${O.match(
+              constant('L'),
+              flow(NES.toString, S.append(', l'))
+            )(projectFreshness.description)}ast committed **${formatDistance(lastCommittedAt, currentDate, {
               addSuffix: true,
             })}** by ${lastCommitterName} *(as of ${intlFormat(currentDate)})*`
           )
         ),
-        funFacts: [
-          {
-            fact: NES.unsafeFromString(
-              `A banana's shelf life in the fridge is about **7–10 days**. Your project outlives at least ${calculateBananaGenerations(
-                daysSinceLastCommit
-              ).toFixed(1)} refrigerated banana-generations.`
-            ),
-            source: NES.unsafeFromString('https://www.doesitgobad.com/banana-go-bad'),
-          },
-        ],
+        funFacts: projectFreshness.buildFunFacts({ daysSinceLastCommit }),
         charts: [],
       })
     )
@@ -65,12 +116,12 @@ export const calculateBananaGenerations = NS.divide(10)
 
 export type CalculateProjectFreshness = (
   dayRangesToFreshness: DayRangesToFreshness
-) => (currentDate: Date) => (lastCommittedAt: Date) => O.Option<string>
+) => (currentDate: Date) => (lastCommittedAt: Date) => O.Option<DayRangesToFreshness[number]['freshness']>
 export const calculateProjectFreshness: CalculateProjectFreshness =
   (dayRangesToFreshness) => (currentDate) => (lastCommittedAt) =>
     pipe(
       dayRangesToFreshness,
-      RA.findFirstMap(({ range: { min, max }, label: s }) =>
+      RA.findFirstMap(({ range: { min, max }, freshness: s }) =>
         RA.elem(N.Eq)(differenceInDays(currentDate, lastCommittedAt))(RNEA.range(min, max)) ? O.some(s) : O.none
       )
     )

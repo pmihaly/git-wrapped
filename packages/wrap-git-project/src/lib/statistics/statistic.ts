@@ -4,14 +4,16 @@ import { constant } from 'fp-ts/function'
 
 import { Chart, GitRepo, createFakeChart } from '..'
 
+export type FunFact = {
+  fact: NES.NonEmptyString
+  source: NES.NonEmptyString
+}
+
 export type Statistic = {
   name: NES.NonEmptyString
   headline: NES.NonEmptyString
   description: O.Option<NES.NonEmptyString>
-  funFacts: ReadonlyArray<{
-    fact: NES.NonEmptyString
-    source: NES.NonEmptyString
-  }>
+  funFacts: ReadonlyArray<FunFact>
   charts: ReadonlyArray<Chart>
 }
 
