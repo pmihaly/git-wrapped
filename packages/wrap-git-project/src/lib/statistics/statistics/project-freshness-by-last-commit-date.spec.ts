@@ -1,6 +1,11 @@
 import * as O from 'fp-ts/Option'
 
-import { calculateProjectFreshness } from '.'
+import { calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
+import {
+  createFakeCommit,
+  createFakeCommitter,
+  createFakeGitRepo,
+} from '../../git'
 
 describe('ProjectFreshnessByLastCommitDate', () => {
   describe('calculateProjectFreshness', () => {
@@ -34,6 +39,53 @@ describe('ProjectFreshnessByLastCommitDate', () => {
         calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
 
       expect(freshness).toStrictEqual(O.none)
+    })
+  })
+
+  describe('projectFreshnessByLastCommitDate', () => {
+    it('should calculate freshness', () => {
+      const project = createFakeGitRepo({
+        commits: [
+          createFakeCommit({
+            committer: createFakeCommitter({
+              committedAt: new Date(2022, 9, 10),
+            }),
+          }),
+        ],
+      })
+
+      const freshnessStatistic = projectFreshnessByLastCommitDate(
+        new Date(2022, 9, 12)
+      )(project)
+      expect(O.isSome(freshnessStatistic)).toBe(true)
+    })
+
+    it('should not calculate freshness of projects without commits', () => {
+      const project = createFakeGitRepo({
+        commits: [],
+      })
+
+      const freshnessStatistic = projectFreshnessByLastCommitDate(
+        new Date(2022, 9, 12)
+      )(project)
+      expect(O.isNone(freshnessStatistic)).toBe(true)
+    })
+
+    it('should not calculate freshness of projects where no freshness is defined', () => {
+      const project = createFakeGitRepo({
+        commits: [
+          createFakeCommit({
+            committer: createFakeCommitter({
+              committedAt: new Date(1000, 9, 10),
+            }),
+          }),
+        ],
+      })
+
+      const freshnessStatistic = projectFreshnessByLastCommitDate(
+        new Date(2022, 9, 12)
+      )(project)
+      expect(O.isNone(freshnessStatistic)).toBe(true)
     })
   })
 })
