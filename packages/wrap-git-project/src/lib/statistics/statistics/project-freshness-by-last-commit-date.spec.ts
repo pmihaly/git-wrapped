@@ -1,11 +1,7 @@
 import * as O from 'fp-ts/Option'
 
 import { calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
-import {
-  createFakeCommit,
-  createFakeCommitter,
-  createFakeGitRepo,
-} from '../../git'
+import { createFakeCommit, createFakeCommitter, createFakeGitRepo } from '../../git'
 
 describe('ProjectFreshnessByLastCommitDate', () => {
   describe('calculateProjectFreshness', () => {
@@ -19,8 +15,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
       const currentDate = new Date(2012, 1, 4)
       const lastCommitDate = new Date(2012, 1, 1)
 
-      const freshness =
-        calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
+      const freshness = calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
 
       expect(freshness).toStrictEqual(O.some('just right'))
     })
@@ -35,8 +30,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
       const currentDate = new Date(2012, 1, 1)
       const lastCommitDate = new Date(2012, 5, 31) // may 5 - jan 1 = 150 days
 
-      const freshness =
-        calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
+      const freshness = calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
 
       expect(freshness).toStrictEqual(O.none)
     })
@@ -54,9 +48,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
         ],
       })
 
-      const freshnessStatistic = projectFreshnessByLastCommitDate(
-        new Date(2022, 9, 12)
-      )(project)
+      const freshnessStatistic = projectFreshnessByLastCommitDate(new Date(2022, 9, 12))(project)
       expect(O.isSome(freshnessStatistic)).toBe(true)
     })
 
@@ -65,9 +57,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
         commits: [],
       })
 
-      const freshnessStatistic = projectFreshnessByLastCommitDate(
-        new Date(2022, 9, 12)
-      )(project)
+      const freshnessStatistic = projectFreshnessByLastCommitDate(new Date(2022, 9, 12))(project)
       expect(O.isNone(freshnessStatistic)).toBe(true)
     })
 
@@ -82,9 +72,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
         ],
       })
 
-      const freshnessStatistic = projectFreshnessByLastCommitDate(
-        new Date(2022, 9, 12)
-      )(project)
+      const freshnessStatistic = projectFreshnessByLastCommitDate(new Date(2022, 9, 12))(project)
       expect(O.isNone(freshnessStatistic)).toBe(true)
     })
   })

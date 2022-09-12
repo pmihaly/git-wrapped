@@ -35,6 +35,5 @@ export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
 
 export type CreateStatisticFrom<T> = (t: T) => O.Option<Statistic>
 
-export const createFakeStatisticCreator = (
-  s: Partial<Statistic>
-): CreateStatisticFrom<GitRepo> => constant(O.some(createFakeStatistic(s)))
+export const createFakeStatisticCreator = (s: Partial<Statistic>): CreateStatisticFrom<GitRepo> =>
+  constant(O.some(createFakeStatistic(s)))

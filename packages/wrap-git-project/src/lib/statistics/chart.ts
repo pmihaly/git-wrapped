@@ -23,19 +23,10 @@ export type Chart = {
 }
 
 const hasDatapointForAllLabels = (chart: Chart): boolean =>
-  pipe(
-    chart,
-    get('datasets'),
-    RA.every(
-      flow(get('data'), RA.size, OR.equals(N.Ord)(get('labels.length')(chart)))
-    )
-  )
+  pipe(chart, get('datasets'), RA.every(flow(get('data'), RA.size, OR.equals(N.Ord)(get('labels.length')(chart)))))
 
 export type CreateChart = (c: Chart) => O.Option<Chart>
-export const createChart: CreateChart = flow(
-  O.some,
-  O.chain(O.fromPredicate(hasDatapointForAllLabels))
-)
+export const createChart: CreateChart = flow(O.some, O.chain(O.fromPredicate(hasDatapointForAllLabels)))
 
 export const createFakeChart = (c: Partial<Chart>): Chart => ({
   type: 'bar',

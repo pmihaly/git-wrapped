@@ -13,19 +13,13 @@ export type Git = {
 
 export type IsomorphicGit = typeof git
 
-export type FromIsomorphicGit = (
-  ig: IsomorphicGit
-) => (fs: PromiseFsClient) => (gitDir: string) => Git
+export type FromIsomorphicGit = (ig: IsomorphicGit) => (fs: PromiseFsClient) => (gitDir: string) => Git
 
-export const fromIsomorphicGit: FromIsomorphicGit =
-  (isomorphicGit) => (fs) => (gitDir) => ({
-    log: constant(
-      pipe(
-        TE.tryCatch(
-          constant(isomorphicGit.log({ fs, gitdir: gitDir })),
-          String
-        ),
-        TE.bimap(identity, RA.map(fromIsomorphicGitCommit))
-      )
-    ),
-  })
+export const fromIsomorphicGit: FromIsomorphicGit = (isomorphicGit) => (fs) => (gitDir) => ({
+  log: constant(
+    pipe(
+      TE.tryCatch(constant(isomorphicGit.log({ fs, gitdir: gitDir })), String),
+      TE.bimap(identity, RA.map(fromIsomorphicGitCommit))
+    )
+  ),
+})

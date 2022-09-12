@@ -5,12 +5,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { constant, identity, pipe } from 'fp-ts/function'
 import { get } from 'spectacles-ts'
 
-import {
-  Commit,
-  createFakeIsomorphicCommit,
-  fromIsomorphicGit,
-  fromIsomorphicGitCommit,
-} from '.'
+import { Commit, createFakeIsomorphicCommit, fromIsomorphicGit, fromIsomorphicGitCommit } from '.'
 
 describe('Git', () => {
   describe('log', () => {
@@ -34,11 +29,9 @@ describe('Git', () => {
         )
 
         expect(E.isRight(errorOrCommits)).toBeTruthy
-        expect(
-          E.getOrElse<string, ReadonlyArray<Commit>>(
-            constant(RA.fromArray([]))
-          )(errorOrCommits)
-        ).toStrictEqual([commit])
+        expect(E.getOrElse<string, ReadonlyArray<Commit>>(constant(RA.fromArray([])))(errorOrCommits)).toStrictEqual([
+          commit,
+        ])
       })
 
       it('should return taskEither error string', async () => {
@@ -60,10 +53,7 @@ describe('Git', () => {
 
         expect(E.isLeft(errorOrCommits)).toBeTruthy
         expect(
-          E.match<string, ReadonlyArray<Commit>, string>(
-            identity,
-            constant('not error returned')
-          )(errorOrCommits)
+          E.match<string, ReadonlyArray<Commit>, string>(identity, constant('not error returned'))(errorOrCommits)
         ).toEqual(errorMessage)
       })
     })

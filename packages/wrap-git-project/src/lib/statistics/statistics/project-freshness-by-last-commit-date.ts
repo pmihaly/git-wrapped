@@ -23,29 +23,19 @@ const dayRangesToFreshness: DayRangesToFreshness = [
 ]
 
 export type ProjectFreshnessByLastCommitDate = CreateStatisticFrom<GitRepo>
-export const projectFreshnessByLastCommitDate = (
-  currentDate: Date
-): ProjectFreshnessByLastCommitDate =>
+export const projectFreshnessByLastCommitDate = (currentDate: Date): ProjectFreshnessByLastCommitDate =>
   flow(
     O.of,
     O.bindTo('repo'),
-    O.bind('lastCommitDate', ({ repo }) =>
-      pipe(repo.commits, RA.last, O.map(get('committer.committedAt')))
-    ),
+    O.bind('lastCommitDate', ({ repo }) => pipe(repo.commits, RA.last, O.map(get('committer.committedAt')))),
     O.bind('projectFreshness', ({ lastCommitDate }) =>
-      calculateProjectFreshness(dayRangesToFreshness)(currentDate)(
-        lastCommitDate
-      )
+      calculateProjectFreshness(dayRangesToFreshness)(currentDate)(lastCommitDate)
     ),
-    O.bind('daysSinceLastCommit', ({ lastCommitDate }) =>
-      O.of(differenceInDays(currentDate, lastCommitDate))
-    ),
+    O.bind('daysSinceLastCommit', ({ lastCommitDate }) => O.of(differenceInDays(currentDate, lastCommitDate))),
     O.chain(({ daysSinceLastCommit, projectFreshness }) =>
       O.of({
         name: NES.unsafeFromString('Project freshness by last commit date'),
-        headline: NES.unsafeFromString(
-          `Your project is **${projectFreshness}**`
-        ),
+        headline: NES.unsafeFromString(`Your project is **${projectFreshness}**`),
         description: O.none,
         funFacts: [
           {
@@ -54,9 +44,7 @@ export const projectFreshnessByLastCommitDate = (
                 daysSinceLastCommit / 10
               ).toFixed(1)} refrigerated banana-generations.`
             ),
-            source: NES.unsafeFromString(
-              'https://www.doesitgobad.com/banana-go-bad'
-            ),
+            source: NES.unsafeFromString('https://www.doesitgobad.com/banana-go-bad'),
           },
         ],
         charts: [],
@@ -72,10 +60,6 @@ export const calculateProjectFreshness: CalculateProjectFreshness =
     pipe(
       dayRangesToFreshness,
       RA.findFirstMap(({ range: { min, max }, label: s }) =>
-        RA.elem(N.Eq)(differenceInDays(currentDate, lastCommitDate))(
-          RNEA.range(min, max)
-        )
-          ? O.some(s)
-          : O.none
+        RA.elem(N.Eq)(differenceInDays(currentDate, lastCommitDate))(RNEA.range(min, max)) ? O.some(s) : O.none
       )
     )

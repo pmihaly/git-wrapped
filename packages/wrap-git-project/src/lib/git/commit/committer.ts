@@ -16,18 +16,14 @@ export const createFakeCommitter = (a: Partial<Committer>): Committer => ({
   ...a,
 })
 
-export type FromIsomorphicGitCommitter = (
-  a: CommitObject['committer']
-) => Committer
+export type FromIsomorphicGitCommitter = (a: CommitObject['committer']) => Committer
 export const fromIsomorphicGitCommitter: FromIsomorphicGitCommitter = (a) => ({
   name: a.name,
   email: a.email,
   committedAt: fromUnixTime(a.timestamp),
 })
 
-export const createFakeIsomorphicCommitter = (
-  c: Partial<CommitObject['committer']>
-): CommitObject['committer'] => ({
+export const createFakeIsomorphicCommitter = (c: Partial<CommitObject['committer']>): CommitObject['committer'] => ({
   ...createFakeIsomorphicAuthor({
     name: 'test committer',
     email: 'committer@test.com',

@@ -48,9 +48,7 @@ export const fromIsomorphicGitCommit: FromIsomorphicGitCommit = (c) => ({
   gpgSignature: O.fromPredicate(S.isString)(c.commit.gpgsig),
 })
 
-export const createFakeIsomorphicCommit = (
-  c: Partial<ReadCommitResult>
-): ReadCommitResult => ({
+export const createFakeIsomorphicCommit = (c: Partial<ReadCommitResult>): ReadCommitResult => ({
   oid: 'test oid',
   commit: {
     message: 'commit message',

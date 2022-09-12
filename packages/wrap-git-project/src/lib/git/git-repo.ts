@@ -5,9 +5,6 @@ export type GitRepo = {
 }
 
 export const createFakeGitRepo = (g: Partial<GitRepo>): GitRepo => ({
-  commits: [
-    createFakeCommit({ message: 'commit 1' }),
-    createFakeCommit({ message: 'commit 2' }),
-  ],
+  commits: [createFakeCommit({ message: 'commit 1' }), createFakeCommit({ message: 'commit 2' })],
   ...g,
 })

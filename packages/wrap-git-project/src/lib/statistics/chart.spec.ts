@@ -15,10 +15,7 @@ describe('Chart', () => {
 
     it('should not construct chart if number of labels is not equal the number of data in datasets', () => {
       const toCreate = createFakeChart({
-        labels: [
-          NES.unsafeFromString('label 1'),
-          NES.unsafeFromString('label 2'),
-        ],
+        labels: [NES.unsafeFromString('label 1'), NES.unsafeFromString('label 2')],
         datasets: [{ data: [1, 2] }, { data: [3] }],
       })
 

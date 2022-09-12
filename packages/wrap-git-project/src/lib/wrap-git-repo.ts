@@ -6,9 +6,6 @@ import { CreateStatisticFrom, GitRepo, Statistic } from '.'
 
 export type WrapGitRepo = (
   r: GitRepo
-) => (
-  s: RNEA.ReadonlyNonEmptyArray<CreateStatisticFrom<GitRepo>>
-) => ReadonlyArray<Statistic>
+) => (s: RNEA.ReadonlyNonEmptyArray<CreateStatisticFrom<GitRepo>>) => ReadonlyArray<Statistic>
 
-export const wrapGitRepo: WrapGitRepo = (repo) =>
-  flow(RNEA.map(apply(repo)), RA.compact)
+export const wrapGitRepo: WrapGitRepo = (repo) => flow(RNEA.map(apply(repo)), RA.compact)
