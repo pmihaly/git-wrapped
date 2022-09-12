@@ -1,5 +1,6 @@
 import { differenceInDays } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
+import * as NS from 'fp-ts-std/Number'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
@@ -40,8 +41,8 @@ export const projectFreshnessByLastCommitDate = (currentDate: Date): ProjectFres
         funFacts: [
           {
             fact: NES.unsafeFromString(
-              `A banana's shelf life in the fridge is about **7–10 days**. Your project outlives at least ${(
-                daysSinceLastCommit / 10
+              `A banana's shelf life in the fridge is about **7–10 days**. Your project outlives at least ${calculateBananaGenerations(
+                daysSinceLastCommit
               ).toFixed(1)} refrigerated banana-generations.`
             ),
             source: NES.unsafeFromString('https://www.doesitgobad.com/banana-go-bad'),
@@ -51,6 +52,8 @@ export const projectFreshnessByLastCommitDate = (currentDate: Date): ProjectFres
       })
     )
   )
+
+export const calculateBananaGenerations = NS.divide(10)
 
 export type CalculateProjectFreshness = (
   dayRangesToFreshness: DayRangesToFreshness
