@@ -1,4 +1,4 @@
-import { differenceInDays } from 'date-fns'
+import { differenceInDays, formatDistance, intlFormat } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as NS from 'fp-ts-std/Number'
 import * as O from 'fp-ts/Option'
@@ -28,16 +28,24 @@ export const projectFreshnessByLastCommitDate = (currentDate: Date): ProjectFres
   flow(
     O.of,
     O.bindTo('repo'),
-    O.bind('lastCommitDate', ({ repo }) => pipe(repo.commits, RA.last, O.map(get('committer.committedAt')))),
+    O.bind('lastCommit', ({ repo }) => pipe(repo.commits, RA.last)),
+    O.bind('lastCommitDate', ({ lastCommit }) => pipe(lastCommit, get('committer.committedAt'), O.of)),
+    O.bind('lastCommitCommitterName', ({ lastCommit }) => pipe(lastCommit, get('committer.name'), O.of)),
     O.bind('projectFreshness', ({ lastCommitDate }) =>
       calculateProjectFreshness(dayRangesToFreshness)(currentDate)(lastCommitDate)
     ),
     O.bind('daysSinceLastCommit', ({ lastCommitDate }) => O.of(differenceInDays(currentDate, lastCommitDate))),
-    O.chain(({ daysSinceLastCommit, projectFreshness }) =>
+    O.chain(({ lastCommitCommitterName, lastCommitDate, daysSinceLastCommit, projectFreshness }) =>
       O.of({
         name: NES.unsafeFromString('Project freshness by last commit date'),
         headline: NES.unsafeFromString(`Your project is **${projectFreshness}**`),
-        description: O.none,
+        description: O.of(
+          NES.unsafeFromString(
+            `Last committed **${formatDistance(lastCommitDate, currentDate, {
+              addSuffix: true,
+            })}** by ${lastCommitCommitterName} *(as of ${intlFormat(currentDate)})*`
+          )
+        ),
         funFacts: [
           {
             fact: NES.unsafeFromString(
