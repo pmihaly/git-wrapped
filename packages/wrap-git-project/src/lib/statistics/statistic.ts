@@ -10,13 +10,12 @@ export type Statistic = {
   headline: StatisticHeadline
 }
 
-export const createFakeStatistic = (
+export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
+  name: 'Test statistic',
+  headline: 'Test statistic with **a value**',
+  ...s,
+})
+
+export const createFakeStatisticCreator = (
   s: Partial<Statistic>
-): CreateStatisticFrom<GitRepo> =>
-  constant(
-    O.some({
-      name: 'Test statistic',
-      headline: 'Test statistic with **a value**',
-      ...s,
-    })
-  )
+): CreateStatisticFrom<GitRepo> => constant(O.some(createFakeStatistic(s)))

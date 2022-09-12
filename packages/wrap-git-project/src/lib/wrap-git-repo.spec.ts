@@ -8,6 +8,7 @@ import {
   GitRepo,
   createFakeGitRepo,
   createFakeStatistic,
+  createFakeStatisticCreator,
   wrapGitRepo,
 } from '.'
 
@@ -15,6 +16,22 @@ describe('wrapGitRepo', () => {
   it('should create statistics for a git repo', () => {
     const repo = createFakeGitRepo({})
     const stats = pipe(
+      createFakeStatisticCreator({
+        name: 'Statistic 1',
+        headline: 'Test statistic 1',
+      }),
+      RNEA.of,
+      RA.append(
+        createFakeStatisticCreator({
+          name: 'Statistic 2',
+          headline: 'Test statistic 2',
+        })
+      )
+    )
+
+    const res = wrapGitRepo(repo)(stats)
+
+    const expectedResults = pipe(
       createFakeStatistic({
         name: 'Statistic 1',
         headline: 'Test statistic 1',
@@ -28,20 +45,6 @@ describe('wrapGitRepo', () => {
       )
     )
 
-    const res = wrapGitRepo(repo)(stats)
-
-    const expectedResults = pipe(
-      {
-        name: 'Statistic 1',
-        headline: 'Test statistic 1',
-      },
-      RNEA.of,
-      RA.append({
-        name: 'Statistic 2',
-        headline: 'Test statistic 2',
-      })
-    )
-
     expect(res).toStrictEqual(expectedResults)
   })
 
@@ -49,7 +52,7 @@ describe('wrapGitRepo', () => {
     const repo = createFakeGitRepo({})
     const createNoneStatistic: CreateStatisticFrom<GitRepo> = constant(O.none)
     const stats = pipe(
-      createFakeStatistic({
+      createFakeStatisticCreator({
         name: 'Statistic 1',
         headline: 'Test statistic 1',
       }),
@@ -59,10 +62,12 @@ describe('wrapGitRepo', () => {
 
     const res = wrapGitRepo(repo)(stats)
 
-    const expectedResults = RA.of({
-      name: 'Statistic 1',
-      headline: 'Test statistic 1',
-    })
+    const expectedResults = RA.of(
+      createFakeStatistic({
+        name: 'Statistic 1',
+        headline: 'Test statistic 1',
+      })
+    )
     expect(res).toStrictEqual(expectedResults)
   })
 })
