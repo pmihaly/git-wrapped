@@ -8,6 +8,10 @@ export type Statistic = {
   name: NES.NonEmptyString
   headline: NES.NonEmptyString
   description: O.Option<NES.NonEmptyString>
+  funFacts: ReadonlyArray<{
+    fact: NES.NonEmptyString
+    source: NES.NonEmptyString
+  }>
   charts: ReadonlyArray<Chart>
 }
 
@@ -15,6 +19,16 @@ export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
   name: NES.unsafeFromString('Test statistic'),
   headline: NES.unsafeFromString('Test statistic with **a value**'),
   description: O.some(NES.unsafeFromString('Test description')),
+  funFacts: [
+    {
+      fact: NES.unsafeFromString('Test fact 1'),
+      source: NES.unsafeFromString('https://example.com/fact1'),
+    },
+    {
+      fact: NES.unsafeFromString('Test fact 2'),
+      source: NES.unsafeFromString('https://example.com/fact2'),
+    },
+  ],
   charts: [createFakeChart({})],
   ...s,
 })
