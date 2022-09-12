@@ -7,7 +7,7 @@ import { get } from 'spectacles-ts'
 
 import {
   Commit,
-  createIsomorphicCommit,
+  createFakeIsomorphicCommit,
   fromIsomorphicGit,
   fromIsomorphicGitCommit,
 } from '.'
@@ -19,7 +19,7 @@ describe('Git', () => {
         const fs: any = {}
         const gitDir = '.'
 
-        const isomorphicCommit = createIsomorphicCommit({})
+        const isomorphicCommit = createFakeIsomorphicCommit({})
         const commit = fromIsomorphicGitCommit(isomorphicCommit)
 
         const isomorphicGit: any = {

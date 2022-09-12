@@ -1,9 +1,9 @@
-import { createIsomorphicAuthor, fromIsomorphicGitAuthor } from '.'
+import { createFakeIsomorphicAuthor, fromIsomorphicGitAuthor } from '.'
 
 describe('Author', () => {
   describe('fromIsomorphicGitAuthor', () => {
     it('should construct author from isomophic git commit format', () => {
-      const isomorphicGitAuthor = createIsomorphicAuthor({})
+      const isomorphicGitAuthor = createFakeIsomorphicAuthor({})
 
       const mappedAuthor = fromIsomorphicGitAuthor(isomorphicGitAuthor)
 

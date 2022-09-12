@@ -1,7 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { CommitObject } from 'isomorphic-git'
 
-import { createIsomorphicAuthor } from '.'
+import { createFakeIsomorphicAuthor } from '.'
 
 export type Committer = {
   name: string
@@ -9,7 +9,7 @@ export type Committer = {
   committedAt: Date
 }
 
-export const createCommitter = (a: Partial<Committer>): Committer => ({
+export const createFakeCommitter = (a: Partial<Committer>): Committer => ({
   name: 'test committer',
   email: 'committer@test.com',
   committedAt: fromUnixTime(123),
@@ -25,10 +25,10 @@ export const fromIsomorphicGitCommitter: FromIsomorphicGitCommitter = (a) => ({
   committedAt: fromUnixTime(a.timestamp),
 })
 
-export const createIsomorphicCommitter = (
+export const createFakeIsomorphicCommitter = (
   c: Partial<CommitObject['committer']>
 ): CommitObject['committer'] => ({
-  ...createIsomorphicAuthor({
+  ...createFakeIsomorphicAuthor({
     name: 'test committer',
     email: 'committer@test.com',
   }),

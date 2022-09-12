@@ -1,9 +1,9 @@
-import { createIsomorphicCommitter, fromIsomorphicGitCommitter } from '.'
+import { createFakeIsomorphicCommitter, fromIsomorphicGitCommitter } from '.'
 
 describe('Committer', () => {
   describe('fromIsomorphicGitCommitter', () => {
     it('should construct committer from isomophic git commit format', () => {
-      const isomorphicGitCommitter = createIsomorphicCommitter({})
+      const isomorphicGitCommitter = createFakeIsomorphicCommitter({})
 
       const mappedCommitter = fromIsomorphicGitCommitter(isomorphicGitCommitter)
 

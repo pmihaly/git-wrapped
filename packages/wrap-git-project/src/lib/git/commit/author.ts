@@ -7,7 +7,9 @@ export type CommitAuthor = {
   writtenAt: Date
 }
 
-export const createCommitAuthor = (a: Partial<CommitAuthor>): CommitAuthor => ({
+export const createFakeCommitAuthor = (
+  a: Partial<CommitAuthor>
+): CommitAuthor => ({
   name: 'test author',
   email: 'author@test.com',
   writtenAt: fromUnixTime(123),
@@ -23,7 +25,7 @@ export const fromIsomorphicGitAuthor: FromIsomorphicGitAuthor = (a) => ({
   writtenAt: fromUnixTime(a.timestamp),
 })
 
-export const createIsomorphicAuthor = (
+export const createFakeIsomorphicAuthor = (
   a: Partial<CommitObject['author']>
 ): CommitObject['author'] => ({
   name: 'test author',

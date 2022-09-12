@@ -10,7 +10,7 @@ export type Statistic = {
   headline: StatisticHeadline
 }
 
-export const createStubStatistic = (
+export const createFakeStatistic = (
   s: Partial<Statistic>
 ): CreateStatisticFrom<GitRepo> =>
   constant(

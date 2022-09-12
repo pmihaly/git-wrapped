@@ -5,10 +5,10 @@ import { ReadCommitResult } from 'isomorphic-git'
 import {
   CommitAuthor,
   Committer,
-  createCommitAuthor,
-  createCommitter,
-  createIsomorphicAuthor,
-  createIsomorphicCommitter,
+  createFakeCommitAuthor,
+  createFakeCommitter,
+  createFakeIsomorphicAuthor,
+  createFakeIsomorphicCommitter,
   fromIsomorphicGitAuthor,
   fromIsomorphicGitCommitter,
 } from '.'
@@ -26,14 +26,14 @@ export type Commit = {
   gpgSignature: O.Option<string>
 }
 
-export const createCommit = (c: Partial<Commit>): Commit => ({
+export const createFakeCommit = (c: Partial<Commit>): Commit => ({
   hash: 'test oid',
   message: 'commit message',
   tree: 'commit tree',
   parent: ['parent1', 'parent2'],
   gpgSignature: O.some('gpg signature'),
-  author: createCommitAuthor({}),
-  committer: createCommitter({}),
+  author: createFakeCommitAuthor({}),
+  committer: createFakeCommitter({}),
   ...c,
 })
 
@@ -48,7 +48,7 @@ export const fromIsomorphicGitCommit: FromIsomorphicGitCommit = (c) => ({
   gpgSignature: O.fromPredicate(S.isString)(c.commit.gpgsig),
 })
 
-export const createIsomorphicCommit = (
+export const createFakeIsomorphicCommit = (
   c: Partial<ReadCommitResult>
 ): ReadCommitResult => ({
   oid: 'test oid',
@@ -56,8 +56,8 @@ export const createIsomorphicCommit = (
     message: 'commit message',
     tree: 'commit tree',
     parent: ['parent1', 'parent2'],
-    author: createIsomorphicAuthor({}),
-    committer: createIsomorphicCommitter({}),
+    author: createFakeIsomorphicAuthor({}),
+    committer: createFakeIsomorphicCommitter({}),
     gpgsig: 'gpg signature',
   },
   payload: 'gpg payload',

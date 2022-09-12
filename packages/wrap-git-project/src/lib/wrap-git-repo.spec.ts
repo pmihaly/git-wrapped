@@ -6,22 +6,22 @@ import { constant, pipe } from 'fp-ts/function'
 import {
   CreateStatisticFrom,
   GitRepo,
-  createStubGitRepo,
-  createStubStatistic,
+  createFakeGitRepo,
+  createFakeStatistic,
   wrapGitRepo,
 } from '.'
 
 describe('wrapGitRepo', () => {
   it('should create statistics for a git repo', () => {
-    const repo = createStubGitRepo({})
+    const repo = createFakeGitRepo({})
     const stats = pipe(
-      createStubStatistic({
+      createFakeStatistic({
         name: 'Statistic 1',
         headline: 'Test statistic 1',
       }),
       RNEA.of,
       RA.append(
-        createStubStatistic({
+        createFakeStatistic({
           name: 'Statistic 2',
           headline: 'Test statistic 2',
         })
@@ -46,10 +46,10 @@ describe('wrapGitRepo', () => {
   })
 
   it('should omit none statistics', () => {
-    const repo = createStubGitRepo({})
+    const repo = createFakeGitRepo({})
     const createNoneStatistic: CreateStatisticFrom<GitRepo> = constant(O.none)
     const stats = pipe(
-      createStubStatistic({
+      createFakeStatistic({
         name: 'Statistic 1',
         headline: 'Test statistic 1',
       }),

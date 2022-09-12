@@ -1,19 +1,21 @@
 import { ReadCommitResult } from 'isomorphic-git'
 
 import {
-  createCommit,
-  createIsomorphicCommit,
+  createFakeCommit,
+  createFakeIsomorphicCommit,
   fromIsomorphicGitCommit,
 } from '.'
 
 describe('Commit', () => {
   describe('fromIsomorphicGitCommit', () => {
     it('should construct commit from isomophic git commit format', () => {
-      const isomorphicGitCommit: ReadCommitResult = createIsomorphicCommit({})
+      const isomorphicGitCommit: ReadCommitResult = createFakeIsomorphicCommit(
+        {}
+      )
 
       const mappedCommit = fromIsomorphicGitCommit(isomorphicGitCommit)
 
-      expect(mappedCommit).toEqual(createCommit({}))
+      expect(mappedCommit).toEqual(createFakeCommit({}))
     })
   })
 })
