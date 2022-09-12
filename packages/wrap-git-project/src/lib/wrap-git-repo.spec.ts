@@ -1,3 +1,4 @@
+import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
@@ -17,14 +18,14 @@ describe('wrapGitRepo', () => {
     const repo = createFakeGitRepo({})
     const stats = pipe(
       createFakeStatisticCreator({
-        name: 'Statistic 1',
-        headline: 'Test statistic 1',
+        name: NES.unsafeFromString('Statistic 1'),
+        headline: NES.unsafeFromString('Test statistic 1'),
       }),
       RNEA.of,
       RA.append(
         createFakeStatisticCreator({
-          name: 'Statistic 2',
-          headline: 'Test statistic 2',
+          name: NES.unsafeFromString('Statistic 2'),
+          headline: NES.unsafeFromString('Test statistic 2'),
         })
       )
     )
@@ -33,14 +34,14 @@ describe('wrapGitRepo', () => {
 
     const expectedResults = pipe(
       createFakeStatistic({
-        name: 'Statistic 1',
-        headline: 'Test statistic 1',
+        name: NES.unsafeFromString('Statistic 1'),
+        headline: NES.unsafeFromString('Test statistic 1'),
       }),
       RNEA.of,
       RA.append(
         createFakeStatistic({
-          name: 'Statistic 2',
-          headline: 'Test statistic 2',
+          name: NES.unsafeFromString('Statistic 2'),
+          headline: NES.unsafeFromString('Test statistic 2'),
         })
       )
     )
@@ -53,8 +54,8 @@ describe('wrapGitRepo', () => {
     const createNoneStatistic: CreateStatisticFrom<GitRepo> = constant(O.none)
     const stats = pipe(
       createFakeStatisticCreator({
-        name: 'Statistic 1',
-        headline: 'Test statistic 1',
+        name: NES.unsafeFromString('Statistic 1'),
+        headline: NES.unsafeFromString('Test statistic 1'),
       }),
       RNEA.of,
       RA.append(createNoneStatistic)
@@ -64,8 +65,8 @@ describe('wrapGitRepo', () => {
 
     const expectedResults = RA.of(
       createFakeStatistic({
-        name: 'Statistic 1',
-        headline: 'Test statistic 1',
+        name: NES.unsafeFromString('Statistic 1'),
+        headline: NES.unsafeFromString('Test statistic 1'),
       })
     )
     expect(res).toStrictEqual(expectedResults)

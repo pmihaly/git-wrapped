@@ -1,22 +1,23 @@
+import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
 import { constant } from 'fp-ts/function'
 
-import { Chart, GitRepo, StatisticHeadline, createFakeChart } from '..'
-
-export type CreateStatisticFrom<T> = (t: T) => O.Option<Statistic>
+import { Chart, GitRepo, createFakeChart } from '..'
 
 export type Statistic = {
-  name: string
-  headline: StatisticHeadline
+  name: NES.NonEmptyString
+  headline: NES.NonEmptyString
   charts: ReadonlyArray<Chart>
 }
 
 export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
-  name: 'Test statistic',
-  headline: 'Test statistic with **a value**',
+  name: NES.unsafeFromString('Test statistic'),
+  headline: NES.unsafeFromString('Test statistic with **a value**'),
   charts: [createFakeChart({})],
   ...s,
 })
+
+export type CreateStatisticFrom<T> = (t: T) => O.Option<Statistic>
 
 export const createFakeStatisticCreator = (
   s: Partial<Statistic>
