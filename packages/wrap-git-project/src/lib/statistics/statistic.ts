@@ -4,7 +4,7 @@ import { constant } from 'fp-ts/function'
 
 import { Chart, GitRepo, createFakeChart } from '..'
 
-type WithSource<T> = {
+export type WithSource<T> = {
   claim: T
   source: NES.NonEmptyString
 }
