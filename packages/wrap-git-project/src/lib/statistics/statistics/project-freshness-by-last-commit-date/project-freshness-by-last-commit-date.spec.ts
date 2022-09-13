@@ -1,6 +1,7 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
-import { constant } from 'fp-ts/lib/function'
+import { constant, pipe } from 'fp-ts/lib/function'
+import { get } from 'spectacles-ts'
 
 import { DayRangesToFreshness, calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
 import { createFakeCommit, createFakeCommitter, createFakeGitRepo } from '../../../git'
@@ -161,5 +162,71 @@ describe('ProjectFreshnessByLastCommitDate', () => {
       const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
       expect(O.isNone(freshnessStatistic)).toBe(true)
     })
+  })
+
+  it('should prefix the description if the freshness has description', () => {
+    const project = createFakeGitRepo({
+      commits: [
+        createFakeCommit({
+          committer: createFakeCommitter({
+            committedAt: new Date(2022, 9, 10),
+          }),
+        }),
+      ],
+    })
+
+    const dayRangesToFreshness: DayRangesToFreshness = [
+      {
+        range: { min: 0, max: 14 },
+        freshness: {
+          label: NES.unsafeFromString('test'),
+          description: O.of(NES.unsafeFromString('test prefix')),
+          buildFunFacts: constant([]),
+          charts: [],
+        },
+      },
+    ]
+
+    const description = pipe(
+      projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project),
+      O.map(get('description')),
+      O.flatten,
+      O.getOrElse(constant(NES.unsafeFromString('description is none')))
+    )
+
+    expect(description).toContain('test prefix, last')
+  })
+
+  it('should not prefix the description if the freshness has no description', () => {
+    const project = createFakeGitRepo({
+      commits: [
+        createFakeCommit({
+          committer: createFakeCommitter({
+            committedAt: new Date(2022, 9, 10),
+          }),
+        }),
+      ],
+    })
+
+    const dayRangesToFreshness: DayRangesToFreshness = [
+      {
+        range: { min: 0, max: 14 },
+        freshness: {
+          label: NES.unsafeFromString('test'),
+          description: O.none,
+          buildFunFacts: constant([]),
+          charts: [],
+        },
+      },
+    ]
+
+    const description = pipe(
+      projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project),
+      O.map(get('description')),
+      O.flatten,
+      O.getOrElse(constant(NES.unsafeFromString('description is none')))
+    )
+
+    expect(description).toContain('Last')
   })
 })
