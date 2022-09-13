@@ -29,17 +29,32 @@ export const projectFreshnessByLastCommitDate =
           name: NES.unsafeFromString('Project freshness by last commit date'),
           headline: NES.unsafeFromString(`Your project is **${projectFreshness.label}**`),
           description: O.of(
-            NES.unsafeFromString(
-              `${O.match(
-                constant('L'),
-                flow(NES.toString, S.append(', l'))
-              )(projectFreshness.description)}ast committed **${formatDistance(lastCommittedAt, currentDate, {
-                addSuffix: true,
-              })}** by ${lastCommitterName} *(as of ${intlFormat(currentDate)})*`
-            )
+            buildDescription({ prefix: projectFreshness.description, lastCommitterName, lastCommittedAt, currentDate })
           ),
           funFacts: projectFreshness.buildFunFacts({ daysSinceLastCommit }),
           charts: [buildProjectInactivityRelativeToOtherProjects(daysSinceLastCommit)],
         })
       )
     )
+
+export const buildDescription = ({
+  prefix,
+  lastCommittedAt,
+  currentDate,
+  lastCommitterName,
+}: {
+  prefix: O.Option<NES.NonEmptyString>
+  lastCommittedAt: Date
+  currentDate: Date
+  lastCommitterName: string
+}): NES.NonEmptyString =>
+  pipe(
+    prefix,
+    O.match(constant(''), NES.toString),
+    S.append(O.match(constant('L'), constant(', l'))(prefix)),
+    S.append('ast committed '),
+    S.append(`**${formatDistance(lastCommittedAt, currentDate, { addSuffix: true })}** `),
+    S.append(`by ${lastCommitterName} `),
+    S.append(`*(as of ${intlFormat(currentDate)})*`),
+    NES.unsafeFromString
+  )
