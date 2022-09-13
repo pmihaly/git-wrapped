@@ -17,14 +17,10 @@ const buildProjectInactivityRelativeToOtherProjects = (_: number): WithSource<Ch
   ),
   claim: {
     labels: pipe(
-      '<1',
-      RNEA.of,
-      RNEA.concat(['<2', '<3', '<4', '<5', '<6', '<9', '<12', '<24', '<36', '<48', '<60']),
+      ['<1', '<2', '<3', '<4', '<5', '<6', '<9', '<12', '<24', '<36', '<48', '<60'],
       RNEA.map(NES.unsafeFromString)
     ),
-    datasets: [
-      { type: 'area', data: pipe(0.16, RNEA.of, RNEA.concat([0.22, 0.38, 0.4, 0.44, 0.58, 0.7, 0.82, 0.99, 1, 1, 1])) },
-    ],
+    datasets: [{ type: 'area', data: [0.16, 0.22, 0.38, 0.4, 0.44, 0.58, 0.7, 0.82, 0.99, 1, 1, 1] }],
   },
 })
 
