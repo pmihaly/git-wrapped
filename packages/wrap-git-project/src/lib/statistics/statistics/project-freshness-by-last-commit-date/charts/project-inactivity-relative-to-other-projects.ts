@@ -1,4 +1,5 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
+import * as O from 'fp-ts/Option'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
@@ -13,6 +14,12 @@ export const buildProjectInactivityRelativeToOtherProjects = (_: number): WithSo
       ['<1', '<2', '<3', '<4', '<5', '<6', '<9', '<12', '<24', '<36', '<48', '<60'],
       RNEA.map(NES.unsafeFromString)
     ),
-    datasets: [{ type: 'area', data: [0.16, 0.22, 0.38, 0.4, 0.44, 0.58, 0.7, 0.82, 0.99, 1, 1, 1] }],
+    datasets: [
+      {
+        type: 'area',
+        label: O.of(NES.unsafeFromString('% of projects abandoned (0.1 = 10%)')),
+        data: [0.16, 0.22, 0.38, 0.4, 0.44, 0.58, 0.7, 0.82, 0.99, 1, 1, 1],
+      },
+    ],
   },
 })
