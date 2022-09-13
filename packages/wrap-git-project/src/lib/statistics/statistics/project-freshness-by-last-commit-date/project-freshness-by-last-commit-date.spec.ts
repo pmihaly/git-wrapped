@@ -1,8 +1,9 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
+import { constant } from 'fp-ts/lib/function'
 
 import { DayRangesToFreshness, calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
-import { createFakeCommit, createFakeCommitter, createFakeGitRepo } from '../../git'
+import { createFakeCommit, createFakeCommitter, createFakeGitRepo } from '../../../git'
 
 describe('ProjectFreshnessByLastCommitDate', () => {
   describe('calculateProjectFreshness', () => {
@@ -97,7 +98,19 @@ describe('ProjectFreshnessByLastCommitDate', () => {
         ],
       })
 
-      const freshnessStatistic = projectFreshnessByLastCommitDate(new Date(2022, 9, 12))(project)
+      const dayRangesToFreshness: DayRangesToFreshness = [
+        {
+          range: { min: 0, max: 14 },
+          freshness: {
+            label: NES.unsafeFromString('test'),
+            description: O.none,
+            buildFunFacts: constant([]),
+            charts: [],
+          },
+        },
+      ]
+
+      const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
       expect(O.isSome(freshnessStatistic)).toBe(true)
     })
 
@@ -106,7 +119,19 @@ describe('ProjectFreshnessByLastCommitDate', () => {
         commits: [],
       })
 
-      const freshnessStatistic = projectFreshnessByLastCommitDate(new Date(2022, 9, 12))(project)
+      const dayRangesToFreshness: DayRangesToFreshness = [
+        {
+          range: { min: 0, max: 14 },
+          freshness: {
+            label: NES.unsafeFromString('test'),
+            description: O.none,
+            buildFunFacts: constant([]),
+            charts: [],
+          },
+        },
+      ]
+
+      const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
       expect(O.isNone(freshnessStatistic)).toBe(true)
     })
 
@@ -121,7 +146,19 @@ describe('ProjectFreshnessByLastCommitDate', () => {
         ],
       })
 
-      const freshnessStatistic = projectFreshnessByLastCommitDate(new Date(2022, 9, 12))(project)
+      const dayRangesToFreshness: DayRangesToFreshness = [
+        {
+          range: { min: 0, max: 14 },
+          freshness: {
+            label: NES.unsafeFromString('test'),
+            description: O.none,
+            buildFunFacts: constant([]),
+            charts: [],
+          },
+        },
+      ]
+
+      const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
       expect(O.isNone(freshnessStatistic)).toBe(true)
     })
   })
