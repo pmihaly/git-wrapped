@@ -174,7 +174,9 @@ describe('ProjectFreshnessByLastCommitDate', () => {
 
       const description = NES.toString(buildDescription(options))
 
-      expect(description).toBe('Test prefix, last committed **6 minutes ago** by committer *(as of 9/13/2022)*')
+      expect(description).toBe(
+        'Test prefix, last committed **6 minutes ago** by committer *(as of 2022-09-13 18:06:00)*'
+      )
     })
   })
 
@@ -188,6 +190,6 @@ describe('ProjectFreshnessByLastCommitDate', () => {
 
     const description = NES.toString(buildDescription(options))
 
-    expect(description).toBe('Last committed **6 minutes ago** by committer *(as of 9/13/2022)*')
+    expect(description).toBe('Last committed **6 minutes ago** by committer *(as of 2022-09-13 18:06:00)*')
   })
 })

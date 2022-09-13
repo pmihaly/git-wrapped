@@ -1,4 +1,4 @@
-import { differenceInDays, formatDistance, intlFormat } from 'date-fns'
+import { differenceInDays, formatDistance, formatISO9075 } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as S from 'fp-ts-std/String'
 import * as O from 'fp-ts/Option'
@@ -55,6 +55,6 @@ export const buildDescription = ({
     S.append('ast committed '),
     S.append(`**${formatDistance(lastCommittedAt, currentDate, { addSuffix: true })}** `),
     S.append(`by ${lastCommitterName} `),
-    S.append(`*(as of ${intlFormat(currentDate)})*`),
+    S.append(`*(as of ${formatISO9075(currentDate)})*`),
     NES.unsafeFromString
   )
