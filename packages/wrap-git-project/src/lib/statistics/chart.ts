@@ -13,11 +13,11 @@ export type ChartType = typeof chartTypes[number]
 type Label = NES.NonEmptyString
 
 type Dataset = {
+  type: ChartType
   data: RNEA.ReadonlyNonEmptyArray<number>
 }
 
 export type Chart = {
-  type: ChartType
   labels: RNEA.ReadonlyNonEmptyArray<Label>
   datasets: RNEA.ReadonlyNonEmptyArray<Dataset>
 }
@@ -29,8 +29,10 @@ export type CreateChart = (c: Chart) => O.Option<Chart>
 export const createChart: CreateChart = flow(O.some, O.chain(O.fromPredicate(hasDatapointForAllLabels)))
 
 export const createFakeChart = (c: Partial<Chart>): Chart => ({
-  type: 'bar',
   labels: [NES.unsafeFromString('label 1'), NES.unsafeFromString('label 2')],
-  datasets: [{ data: [1, 2] }, { data: [3, 4] }],
+  datasets: [
+    { type: 'bar', data: [1, 2] },
+    { type: 'bar', data: [3, 4] },
+  ],
   ...c,
 })
