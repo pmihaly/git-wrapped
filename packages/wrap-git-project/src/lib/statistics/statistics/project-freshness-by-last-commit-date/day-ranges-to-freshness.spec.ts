@@ -87,7 +87,7 @@ describe('buildBananaGenerationsFunFact', () => {
   it('should calculate outlived banana generations', () => {
     const daysSinceLastCommit = 100
 
-    const bananaGenerationsFact = buildBananaGenerationsFunFact(daysSinceLastCommit).fact
+    const bananaGenerationsFact = buildBananaGenerationsFunFact(daysSinceLastCommit).claim
 
     expect(NES.toString(bananaGenerationsFact)).toContain('10')
   })

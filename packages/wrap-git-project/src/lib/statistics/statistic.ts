@@ -4,17 +4,26 @@ import { constant } from 'fp-ts/function'
 
 import { Chart, GitRepo, createFakeChart } from '..'
 
-export type FunFact = {
-  fact: NES.NonEmptyString
+type WithSource<T> = {
+  claim: T
   source: NES.NonEmptyString
 }
+
+const withFakeSource =
+  (source: NES.NonEmptyString = NES.unsafeFromString('test source')) =>
+  <T>(claim: T): WithSource<T> => ({
+    claim,
+    source,
+  })
+
+export type FunFact = WithSource<NES.NonEmptyString>
 
 export type Statistic = {
   name: NES.NonEmptyString
   headline: NES.NonEmptyString
   description: O.Option<NES.NonEmptyString>
   funFacts: ReadonlyArray<FunFact>
-  charts: ReadonlyArray<Chart>
+  charts: ReadonlyArray<WithSource<Chart>>
 }
 
 export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
@@ -23,15 +32,15 @@ export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
   description: O.some(NES.unsafeFromString('Test description')),
   funFacts: [
     {
-      fact: NES.unsafeFromString('Test fact 1'),
+      claim: NES.unsafeFromString('Test fact 1'),
       source: NES.unsafeFromString('https://example.com/fact1'),
     },
     {
-      fact: NES.unsafeFromString('Test fact 2'),
+      claim: NES.unsafeFromString('Test fact 2'),
       source: NES.unsafeFromString('https://example.com/fact2'),
     },
   ],
-  charts: [createFakeChart({})],
+  charts: [withFakeSource()(createFakeChart({}))],
   ...s,
 })
 
