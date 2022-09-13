@@ -1,6 +1,8 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
+import * as IO from 'fp-ts/IO'
+import * as IOO from 'fp-ts/IOOption'
 import * as O from 'fp-ts/Option'
-import { constant } from 'fp-ts/function'
+import { constant, flow } from 'fp-ts/function'
 
 import { Chart, GitRepo, createFakeChart } from '..'
 
@@ -44,7 +46,10 @@ export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
   ...s,
 })
 
-export type CreateStatisticFrom<T> = (t: T) => O.Option<Statistic>
+export type CreateStatisticFrom<T> = (t: T) => IOO.IOOption<Statistic>
 
-export const createFakeStatisticCreator = (s: Partial<Statistic>): CreateStatisticFrom<GitRepo> =>
-  constant(O.some(createFakeStatistic(s)))
+export const createFakeStatisticCreator: (s: Partial<Statistic>) => CreateStatisticFrom<GitRepo> = flow(
+  createFakeStatistic,
+  IOO.of,
+  constant
+)

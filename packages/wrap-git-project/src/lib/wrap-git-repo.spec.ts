@@ -1,4 +1,5 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
+import * as IO from 'fp-ts/IO'
 import * as O from 'fp-ts/Option'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import { constant } from 'fp-ts/function'
@@ -27,7 +28,7 @@ describe('wrapGitRepo', () => {
       }),
     ]
 
-    const res = wrapGitRepo(repo)(stats)
+    const res = wrapGitRepo(repo)(stats)()
 
     const expectedResults: RNEA.ReadonlyNonEmptyArray<Statistic> = [
       createFakeStatistic({
@@ -45,7 +46,7 @@ describe('wrapGitRepo', () => {
 
   it('should omit none statistics', () => {
     const repo = createFakeGitRepo({})
-    const noneStatisticCreator = constant(O.none)
+    const noneStatisticCreator = constant(IO.of(O.none))
     const stats: RNEA.ReadonlyNonEmptyArray<CreateStatisticFrom<GitRepo>> = [
       createFakeStatisticCreator({
         name: NES.unsafeFromString('Statistic 1'),
@@ -54,7 +55,7 @@ describe('wrapGitRepo', () => {
       noneStatisticCreator,
     ]
 
-    const res = wrapGitRepo(repo)(stats)
+    const res = wrapGitRepo(repo)(stats)()
 
     const expectedResults = [
       createFakeStatistic({

@@ -111,7 +111,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
       ]
 
       const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
-      expect(O.isSome(freshnessStatistic)).toBe(true)
+      expect(O.isSome(freshnessStatistic())).toBe(true)
     })
 
     it('should not calculate freshness of projects without commits', () => {
@@ -132,7 +132,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
       ]
 
       const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
-      expect(O.isNone(freshnessStatistic)).toBe(true)
+      expect(O.isNone(freshnessStatistic())).toBe(true)
     })
 
     it('should not calculate freshness of projects where no freshness is defined', () => {
@@ -159,7 +159,7 @@ describe('ProjectFreshnessByLastCommitDate', () => {
       ]
 
       const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
-      expect(O.isNone(freshnessStatistic)).toBe(true)
+      expect(O.isNone(freshnessStatistic())).toBe(true)
     })
   })
 

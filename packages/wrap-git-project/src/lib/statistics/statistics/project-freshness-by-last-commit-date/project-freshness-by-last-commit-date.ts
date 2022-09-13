@@ -1,6 +1,7 @@
 import { differenceInDays, formatDistance, formatISO9075 } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as S from 'fp-ts-std/String'
+import * as IOO from 'fp-ts/IOOption'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { constant, flow, pipe } from 'fp-ts/function'
@@ -15,17 +16,17 @@ export const projectFreshnessByLastCommitDate =
   (dayRangesToFreshness: DayRangesToFreshness) =>
   (currentDate: Date): ProjectFreshnessByLastCommitDate =>
     flow(
-      O.of,
-      O.bindTo('repo'),
-      O.bind('lastCommit', ({ repo }) => pipe(repo.commits, RA.last)),
-      O.bind('lastCommittedAt', ({ lastCommit }) => pipe(lastCommit, get('committer.committedAt'), O.of)),
-      O.bind('lastCommitterName', ({ lastCommit }) => pipe(lastCommit, get('committer.name'), O.of)),
-      O.bind('projectFreshness', ({ lastCommittedAt }) =>
-        calculateProjectFreshness(dayRangesToFreshness)(currentDate)(lastCommittedAt)
+      IOO.of,
+      IOO.bindTo('repo'),
+      IOO.bind('lastCommit', ({ repo }) => pipe(repo.commits, RA.last, IOO.fromOption)),
+      IOO.bind('lastCommittedAt', ({ lastCommit }) => pipe(lastCommit, get('committer.committedAt'), IOO.of)),
+      IOO.bind('lastCommitterName', ({ lastCommit }) => pipe(lastCommit, get('committer.name'), IOO.of)),
+      IOO.bind('projectFreshness', ({ lastCommittedAt }) =>
+        pipe(calculateProjectFreshness(dayRangesToFreshness)(currentDate)(lastCommittedAt), IOO.fromOption)
       ),
-      O.bind('daysSinceLastCommit', ({ lastCommittedAt }) => O.of(differenceInDays(currentDate, lastCommittedAt))),
-      O.chain(({ lastCommitterName, lastCommittedAt, daysSinceLastCommit, projectFreshness }) =>
-        O.of({
+      IOO.bind('daysSinceLastCommit', ({ lastCommittedAt }) => IOO.of(differenceInDays(currentDate, lastCommittedAt))),
+      IOO.chain(({ lastCommitterName, lastCommittedAt, daysSinceLastCommit, projectFreshness }) =>
+        IOO.of({
           name: NES.unsafeFromString('Project freshness by last commit date'),
           headline: NES.unsafeFromString(`Your project is **${projectFreshness.label}**`),
           description: O.of(

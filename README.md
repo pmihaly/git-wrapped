@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] collect possibly all git repo related statistics in a `ReadonlyNonEmptyArray<IO<CreateStatisticFrom<GitRepo>>>` or similar type and calculate them all on a single git repo
+- [x] collect possibly all git repo related statistics in a `ReadonlyNonEmptyArray<IO<CreateStatisticFrom<GitRepo>>>` or similar type and calculate them all on a single git repo
 - [ ] initialize frontend projects
   - using https://github.com/sevenwestmedia-labs/nx-plugins/tree/main/libs/nx-vite
 
