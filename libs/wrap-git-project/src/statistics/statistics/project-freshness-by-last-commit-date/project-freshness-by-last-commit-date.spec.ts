@@ -2,7 +2,7 @@ import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
 import { constant } from 'fp-ts/function'
 
-import { DayRangesToFreshness, buildDescription, calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
+import { DayRangesToFreshness, calculateProjectFreshness, projectFreshnessByLastCommitDate } from '.'
 import { createFakeCommit, createFakeCommitter, createFakeGitRepo } from '../../../git'
 
 describe('ProjectFreshnessByLastCommitDate', () => {
@@ -161,35 +161,5 @@ describe('ProjectFreshnessByLastCommitDate', () => {
       const freshnessStatistic = projectFreshnessByLastCommitDate(dayRangesToFreshness)(new Date(2022, 9, 12))(project)
       expect(O.isNone(freshnessStatistic())).toBe(true)
     })
-  })
-
-  describe('buildDescription', () => {
-    it('should build full description', () => {
-      const options = {
-        prefix: O.of(NES.unsafeFromString('Test prefix')),
-        lastCommittedAt: new Date('2022-09-13 18:00:00'),
-        currentDate: new Date('2022-09-13 18:06:00'),
-        lastCommitterName: 'committer',
-      }
-
-      const description = NES.toString(buildDescription(options))
-
-      expect(description).toBe(
-        'Test prefix, last committed **6 minutes ago** by committer *(as of 2022-09-13 18:06:00)*'
-      )
-    })
-  })
-
-  it('should leave out prefix if not given', () => {
-    const options = {
-      prefix: O.none,
-      lastCommittedAt: new Date('2022-09-13 18:00:00'),
-      currentDate: new Date('2022-09-13 18:06:00'),
-      lastCommitterName: 'committer',
-    }
-
-    const description = NES.toString(buildDescription(options))
-
-    expect(description).toBe('Last committed **6 minutes ago** by committer *(as of 2022-09-13 18:06:00)*')
   })
 })

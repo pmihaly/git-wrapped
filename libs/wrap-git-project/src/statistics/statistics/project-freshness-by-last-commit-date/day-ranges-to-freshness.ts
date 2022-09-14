@@ -1,12 +1,10 @@
 import { differenceInDays } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
-import * as NS from 'fp-ts-std/Number'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { constant, flow, pipe } from 'fp-ts/function'
+import { constant, pipe } from 'fp-ts/function'
 import * as N from 'fp-ts/number'
-import { get } from 'spectacles-ts'
 
 import { Chart, FunFact } from '../..'
 
@@ -20,16 +18,6 @@ export type DayRangesToFreshness = ReadonlyArray<{
   }
 }>
 
-export const buildBananaGenerationsFunFact = (daysSinceLastCommit: number): FunFact => ({
-  claim: NES.unsafeFromString(
-    `A banana's shelf life in the fridge is about **7–10 days**. Your project outlives at least ${calculateBananaGenerations(
-      daysSinceLastCommit
-    ).toFixed(1)} refrigerated banana-generations.`
-  ),
-  source: NES.unsafeFromString('https://www.doesitgobad.com/banana-go-bad'),
-})
-const calculateBananaGenerations = NS.divide(10)
-
 export const dayRangesToFreshness: DayRangesToFreshness = [
   {
     range: { min: 0, max: 14 },
@@ -38,7 +26,7 @@ export const dayRangesToFreshness: DayRangesToFreshness = [
       description: O.of(
         NES.unsafeFromString('Source: https://www.theguardian.com/lifeandstyle/2003/jul/13/foodanddrink.features18')
       ),
-      buildFunFacts: flow(get('daysSinceLastCommit'), RA.of, RA.map(buildBananaGenerationsFunFact)),
+      buildFunFacts: constant([]),
       charts: [],
     },
   },

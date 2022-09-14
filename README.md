@@ -5,7 +5,7 @@
 - [x] collect possibly all git repo related statistics in a `ReadonlyNonEmptyArray<IO<CreateStatisticFrom<GitRepo>>>` or similar type and calculate them all on a single git repo
 - [x] initialize frontend projects
 - [ ] Adding `Task<>` to statistics
-- [ ] Statistic should only have a name, a headline and a RNEA of funFacts
+- [x] Statistic should only have a name, a headline and a RNEA of funFacts
 
   - funFact: optional headline, optional text, optional chart
 

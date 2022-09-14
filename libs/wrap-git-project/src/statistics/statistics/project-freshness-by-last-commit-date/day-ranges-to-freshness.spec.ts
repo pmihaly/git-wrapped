@@ -1,7 +1,7 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
 
-import { DayRangesToFreshness, buildBananaGenerationsFunFact, calculateProjectFreshness } from '.'
+import { DayRangesToFreshness, calculateProjectFreshness } from '.'
 
 describe('calculateProjectFreshness', () => {
   it('should calculate freshness matching the range', () => {
@@ -80,15 +80,5 @@ describe('calculateProjectFreshness', () => {
     const freshness = calculateProjectFreshness(daysToFreshness)(currentDate)(lastCommitDate)
 
     expect(O.isNone(freshness)).toBe(true)
-  })
-})
-
-describe('buildBananaGenerationsFunFact', () => {
-  it('should calculate outlived banana generations', () => {
-    const daysSinceLastCommit = 100
-
-    const bananaGenerationsFact = buildBananaGenerationsFunFact(daysSinceLastCommit).claim
-
-    expect(NES.toString(bananaGenerationsFact)).toContain('10')
   })
 })

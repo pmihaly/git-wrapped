@@ -1,13 +1,15 @@
 import { differenceInDays, formatDistance, formatISO9075 } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
+import * as NS from 'fp-ts-std/Number'
 import * as S from 'fp-ts-std/String'
 import * as IOO from 'fp-ts/IOOption'
 import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
-import { constant, flow, pipe } from 'fp-ts/function'
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { flow, pipe } from 'fp-ts/function'
 import { get } from 'spectacles-ts'
 
-import { DayRangesToFreshness, buildProjectInactivityRelativeToOtherProjects, calculateProjectFreshness } from '.'
+import { DayRangesToFreshness, calculateProjectFreshness } from '.'
 import { CreateStatisticFrom } from '../..'
 import { GitRepo } from '../../..'
 
@@ -29,33 +31,54 @@ export const projectFreshnessByLastCommitDate =
         IOO.of({
           name: NES.unsafeFromString('Project freshness by last commit date'),
           headline: NES.unsafeFromString(`Your project is **${projectFreshness.label}**`),
-          description: O.of(
-            buildDescription({ prefix: projectFreshness.description, lastCommitterName, lastCommittedAt, currentDate })
+          text: pipe(
+            'Last committed ',
+            S.append(`**${formatDistance(lastCommittedAt, currentDate, { addSuffix: true })}** `),
+            S.append(`by ${lastCommitterName}. `),
+            S.append(`*(as of ${formatISO9075(currentDate)})*`),
+            NES.fromString
           ),
-          funFacts: projectFreshness.buildFunFacts({ daysSinceLastCommit }),
-          charts: [buildProjectInactivityRelativeToOtherProjects()],
+          funFacts: [
+            {
+              claim: {
+                headline: NES.fromString(`A banana's shelf life in the fridge is about **7–10 days**`),
+                text: NES.fromString(
+                  `Your project outlives at least ${NS.divide(10)(daysSinceLastCommit).toFixed(
+                    1
+                  )} refrigerated banana-generations.`
+                ),
+                chart: O.none,
+              },
+              source: NES.unsafeFromString('https://www.doesitgobad.com/banana-go-bad'),
+            },
+            {
+              source: NES.unsafeFromString(
+                'Kalliamvakou, Eirini & Gousios, Georgios & Blincoe, Kelly & Singer, Leif & German, Daniel & Damian, Daniela. (2015). The Promises and Perils of Mining GitHub (Extended Version). Empirical Software Engineering.'
+              ),
+              claim: {
+                headline: O.none,
+                text: O.none,
+                chart: O.some({
+                  labels: pipe(
+                    ['<1', '<2', '<3', '<4', '<5', '<6', '<9', '<12', '<24', '<36', '<48', '<60'],
+                    RNEA.map(NES.unsafeFromString)
+                  ),
+                  datasets: [
+                    {
+                      type: 'area',
+                      label: O.of(NES.unsafeFromString('% of projects abandoned (0.1 = 10%)')),
+                      data: [0.16, 0.22, 0.38, 0.4, 0.44, 0.58, 0.7, 0.82, 0.99, 1, 1, 1],
+                    },
+                    {
+                      type: 'bar',
+                      label: O.of(NES.unsafeFromString('This project')),
+                      data: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    },
+                  ],
+                }),
+              },
+            },
+          ],
         })
       )
     )
-
-export const buildDescription = ({
-  prefix,
-  lastCommittedAt,
-  currentDate,
-  lastCommitterName,
-}: {
-  prefix: O.Option<NES.NonEmptyString>
-  lastCommittedAt: Date
-  currentDate: Date
-  lastCommitterName: string
-}): NES.NonEmptyString =>
-  pipe(
-    prefix,
-    O.match(constant(''), NES.toString),
-    S.append(O.match(constant('L'), constant(', l'))(prefix)),
-    S.append('ast committed '),
-    S.append(`**${formatDistance(lastCommittedAt, currentDate, { addSuffix: true })}** `),
-    S.append(`by ${lastCommitterName} `),
-    S.append(`*(as of ${formatISO9075(currentDate)})*`),
-    NES.unsafeFromString
-  )

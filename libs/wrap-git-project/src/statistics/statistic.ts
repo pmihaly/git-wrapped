@@ -1,6 +1,7 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as IOO from 'fp-ts/IOOption'
 import * as O from 'fp-ts/Option'
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import { constant, flow } from 'fp-ts/function'
 
 import { Chart, GitRepo, createFakeChart } from '..'
@@ -17,31 +18,44 @@ const withFakeSource =
     source,
   })
 
-export type FunFact = WithSource<NES.NonEmptyString>
+export type FunFact = WithSource<{
+  headline: O.Option<NES.NonEmptyString>
+  text: O.Option<NES.NonEmptyString>
+  chart: O.Option<Chart>
+}>
 
 export type Statistic = {
   name: NES.NonEmptyString
   headline: NES.NonEmptyString
-  description: O.Option<NES.NonEmptyString>
-  funFacts: ReadonlyArray<FunFact>
-  charts: ReadonlyArray<WithSource<Chart>>
+  text: O.Option<NES.NonEmptyString>
+  funFacts: RNEA.ReadonlyNonEmptyArray<FunFact>
 }
 
 export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
   name: NES.unsafeFromString('Test statistic'),
   headline: NES.unsafeFromString('Test statistic with **a value**'),
-  description: O.some(NES.unsafeFromString('Test description')),
+  text: O.some(
+    NES.unsafeFromString(
+      'Consectetur aliquam nulla eaque rem nemo? Dicta ex inventore id officia rerum Nam consequatur natus animi corporis optio asperiores. Doloribus recusandae repellat beatae quaerat deserunt? Facere reprehenderit et doloribus quod quia? Officia explicabo consequatur repudiandae veniam corporis saepe quis ad. Laborum elit libero dolor corrupti voluptatibus Accusantium ipsa recusandae fuga doloremque harum soluta similique. Deserunt sed suscipit sunt autem doloremque. Quo et a amet excepturi officiis. Optio nihil voluptates expedita beatae unde iure. Perspiciatis recusandae corrupti iusto distinctio alias, nesciunt! Ipsa adipisci magni libero voluptatem totam Similique et magni aperiam optio harum. Facilis neque hic autem deleniti ipsa? Ut animi.'
+    )
+  ),
   funFacts: [
-    {
-      claim: NES.unsafeFromString('Test fact 1'),
-      source: NES.unsafeFromString('https://example.com/fact1'),
-    },
-    {
-      claim: NES.unsafeFromString('Test fact 2'),
-      source: NES.unsafeFromString('https://example.com/fact2'),
-    },
+    withFakeSource()({
+      headline: NES.fromString('Fun fact headline 1'),
+      text: NES.fromString('Fun fact text 1'),
+      chart: O.none,
+    }),
+    withFakeSource()({
+      headline: NES.fromString('Fun fact headline 2'),
+      text: O.none,
+      chart: O.of(createFakeChart({})),
+    }),
+    withFakeSource()({
+      headline: O.none,
+      text: NES.fromString('Fun fact text 3'),
+      chart: O.of(createFakeChart({})),
+    }),
   ],
-  charts: [withFakeSource()(createFakeChart({}))],
   ...s,
 })
 
