@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@git-wrapped/wrap-git-project": ["packages/wrap-git-project/src/index.ts"]
+      "@git-wrapped/wrap-git-project": ["libs/wrap-git-project/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
