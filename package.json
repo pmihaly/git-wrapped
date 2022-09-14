@@ -7,6 +7,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@wanews/nx-vite": "0.11.0",
     "@nrwl/cli": "14.7.3",
     "@nrwl/eslint-plugin-nx": "14.7.3",
     "@nrwl/jest": "14.7.3",
@@ -35,7 +36,6 @@
     "vite": "3.1.0"
   },
   "dependencies": {
-    "@wanews/nx-vite": "0.11.0",
     "date-fns": "2.29.2",
     "fp-ts": "2.12.3",
     "fp-ts-std": "0.15.0",
