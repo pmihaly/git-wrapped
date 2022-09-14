@@ -61,7 +61,6 @@
     "tslib": "2.4.0"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,ts}": "eslint --cache --fix --max-warnings=0"
   }
 }
