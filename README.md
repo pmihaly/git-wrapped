@@ -15,5 +15,5 @@
   - lib/wrap-git-project-cli - provides a CLI to wrap-git-project
   - lib/wrap-git-project - functions to wrap a git project
 - app/present-wrapped-project - routes URLS and provides statistics from a file to pages defined in present-wrapped-project
-  - lib/present-wrapped-project - pages and non-ui components that use ui components from present-wrapped-project-ui
+  - lib/present-wrapped-project-logic - hooks and pages/components which receive components UI as props
   - lib/present-wrapped-project-ui - components visible by an end user

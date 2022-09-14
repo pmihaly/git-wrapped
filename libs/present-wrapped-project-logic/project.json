@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/present-wrapped-project-logic/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/present-wrapped-project-logic/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/present-wrapped-project-logic"],
+      "options": {
+        "jestConfig": "libs/present-wrapped-project-logic/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

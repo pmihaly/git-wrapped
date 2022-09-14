@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "present-wrapped-project": "apps/present-wrapped-project",
+    "present-wrapped-project-logic": "libs/present-wrapped-project-logic",
     "present-wrapped-project-ui": "libs/present-wrapped-project-ui",
     "wrap-git-project": "libs/wrap-git-project"
   }
