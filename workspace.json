@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "present-wrapped-project": "apps/present-wrapped-project",
     "wrap-git-project": "libs/wrap-git-project"
   }
 }
