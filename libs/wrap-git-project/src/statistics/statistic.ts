@@ -1,5 +1,4 @@
 import * as NES from 'fp-ts-std/NonEmptyString'
-import * as IO from 'fp-ts/IO'
 import * as IOO from 'fp-ts/IOOption'
 import * as O from 'fp-ts/Option'
 import { constant, flow } from 'fp-ts/function'

@@ -33,7 +33,7 @@ export const projectFreshnessByLastCommitDate =
             buildDescription({ prefix: projectFreshness.description, lastCommitterName, lastCommittedAt, currentDate })
           ),
           funFacts: projectFreshness.buildFunFacts({ daysSinceLastCommit }),
-          charts: [buildProjectInactivityRelativeToOtherProjects(daysSinceLastCommit)],
+          charts: [buildProjectInactivityRelativeToOtherProjects()],
         })
       )
     )

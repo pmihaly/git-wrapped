@@ -5,7 +5,7 @@ import { pipe } from 'fp-ts/function'
 
 import { Chart, WithSource } from '../../..'
 
-export const buildProjectInactivityRelativeToOtherProjects = (_: number): WithSource<Chart> => ({
+export const buildProjectInactivityRelativeToOtherProjects = (): WithSource<Chart> => ({
   source: NES.unsafeFromString(
     'Kalliamvakou, Eirini & Gousios, Georgios & Blincoe, Kelly & Singer, Leif & German, Daniel & Damian, Daniela. (2015). The Promises and Perils of Mining GitHub (Extended Version). Empirical Software Engineering.'
   ),
