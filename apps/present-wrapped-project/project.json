@@ -20,7 +20,7 @@
     "test": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "npx vitest --run",
+        "command": "npx vitest --run --passWithNoTests",
         "cwd": "apps/present-wrapped-project"
       }
     }
