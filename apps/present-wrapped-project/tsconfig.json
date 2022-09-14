@@ -1,9 +1,29 @@
 {
-  "extends": "../../tsconfig.settings.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./out-tsc",
-    "rootDir": "./src",
-    "types": ["node"]
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "preact",
+    "types": ["vite/client"]
   },
-  "include": ["src/**/*.ts"]
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

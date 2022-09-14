@@ -3,9 +3,7 @@
 ## TODO
 
 - [x] collect possibly all git repo related statistics in a `ReadonlyNonEmptyArray<IO<CreateStatisticFrom<GitRepo>>>` or similar type and calculate them all on a single git repo
-- [ ] initialize frontend projects
-
-  - using https://github.com/sevenwestmedia-labs/nx-plugins/tree/main/libs/nx-vite
+- [x] initialize frontend projects
 
 - [ ] freshness by last commit statistic: bar representing the repo should be on the last completed month
 

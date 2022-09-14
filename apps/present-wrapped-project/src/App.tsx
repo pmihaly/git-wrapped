@@ -1,4 +1,8 @@
-import React from 'react'
+import { HelloWorldLogic } from '@git-wrapped/present-wrapped-project-logic'
+import { HelloWorld } from '@git-wrapped/present-wrapped-project-ui'
 
-type AppProps = { message: string }
-export const App = ({ message }: AppProps) => <div>{message}</div>
+export const App = () => (
+  <>
+    <HelloWorldLogic helloWorldUi={<HelloWorld />} />
+  </>
+)

@@ -1,6 +1,5 @@
 {
   "name": "present-wrapped-project",
   "version": "0.0.1",
-  "main": "./dist/index.js",
-  "private": true
+  "description": "Nx Preact present-wrapped-project app"
 }
