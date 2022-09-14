@@ -1,6 +1,5 @@
 import { differenceInDays, formatDistance, formatISO9075 } from 'date-fns'
 import * as NES from 'fp-ts-std/NonEmptyString'
-import * as NS from 'fp-ts-std/Number'
 import * as S from 'fp-ts-std/String'
 import * as IOO from 'fp-ts/IOOption'
 import * as O from 'fp-ts/Option'
@@ -9,7 +8,7 @@ import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import { flow, pipe } from 'fp-ts/function'
 import { get } from 'spectacles-ts'
 
-import { DayRangesToFreshness, calculateProjectFreshness } from '.'
+import { DayRangesToFreshness, calculateProjectFreshness, getGenerationsOfBananasOutlivedFunFact } from '.'
 import { CreateStatisticFrom } from '../..'
 import { GitRepo } from '../../..'
 
@@ -39,18 +38,7 @@ export const projectFreshnessByLastCommitDate =
             NES.fromString
           ),
           funFacts: [
-            {
-              claim: {
-                headline: NES.fromString(`A banana's shelf life in the fridge is about **7–10 days**`),
-                text: NES.fromString(
-                  `Your project outlives at least ${NS.divide(10)(daysSinceLastCommit).toFixed(
-                    1
-                  )} refrigerated banana-generations.`
-                ),
-                chart: O.none,
-              },
-              source: NES.unsafeFromString('https://www.doesitgobad.com/banana-go-bad'),
-            },
+            getGenerationsOfBananasOutlivedFunFact(daysSinceLastCommit),
             {
               source: NES.unsafeFromString(
                 'Kalliamvakou, Eirini & Gousios, Georgios & Blincoe, Kelly & Singer, Leif & German, Daniel & Damian, Daniela. (2015). The Promises and Perils of Mining GitHub (Extended Version). Empirical Software Engineering.'
