@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@git-wrapped/present-wrapped-project-ui": ["libs/present-wrapped-project-ui/src/index.ts"],
       "@git-wrapped/wrap-git-project": ["libs/wrap-git-project/src/index.ts"]
     }
   },
