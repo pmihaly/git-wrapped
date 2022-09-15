@@ -67,6 +67,6 @@
     "tslib": "2.4.0"
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix --max-warnings=0"
+    "*.{js,ts,jsx,tsx}": "eslint --cache --fix --max-warnings=0"
   }
 }
