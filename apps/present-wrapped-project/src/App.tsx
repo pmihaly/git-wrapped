@@ -1,8 +1,8 @@
 import { HelloWorldLogic } from '@git-wrapped/present-wrapped-project-logic'
-import { HelloWorld } from '@git-wrapped/present-wrapped-project-ui'
+import { HelloWorld, UiProvider } from '@git-wrapped/present-wrapped-project-ui'
 
-export const App = () => (
-  <>
+export const App: React.FC = () => (
+  <UiProvider>
     <HelloWorldLogic helloWorldUi={<HelloWorld />} />
-  </>
+  </UiProvider>
 )

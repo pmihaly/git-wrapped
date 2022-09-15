@@ -1,1 +1,1 @@
-export const HelloWorldLogic = ({ helloWorldUi }: { helloWorldUi: JSX.Element }) => helloWorldUi
+export const HelloWorldLogic: React.FC<{ helloWorldUi: JSX.Element }> = ({ helloWorldUi }) => helloWorldUi
