@@ -10,11 +10,25 @@
   - funFact: optional headline, optional text, optional chart
 
 - Pages:
+
   - [ ] Welcome
   - [ ] Statistic
     - Headline
     - FunFact
   - [ ] Thanks
+
+- Style
+  - Random color (randomly picks dark or light theme, randomly picks a color from netxui palette to use as a 'primary' color)
+  - Blurred & animated blob background
+    - Randomly picked by the primary color from https://app.haikei.app/ + blur
+  - Confetti
+    - Statistics have an optional achievementHeadline, congratulating the user for an achievement - "You have successfully resisted the urge to swear in 80% of commit messages"
+    - Statistics with achievementHeadline can be displayed with confettis
+    - Frontend randomly picks X% of confetti enabled statistics and merges them evenly with nonConfettiStats:
+      `mergeEvenly nonConfettiStats confettiStats = zipWith (flatten . RA.append) (chunksOf (size confettiStats) nonConfettiStats) (RA.of confettiStats)`
+    - https://www.npmjs.com/package/react-canvas-confetti with "Realistic" example or https://www.npmjs.com/package/react-confetti-explosion
+  - Card hover perspecive effect on charts - https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/card
+  - https://www.npmjs.com/package/react-locomotive-scroll
 
 ## TODO Statistics
 
@@ -22,10 +36,11 @@
 - [ ] numbers and instances of profanities in commit messages and/or diffs
   - diffs in a commit
   - highlightCommits (Commit[]) in a FunFact
-- [ ] night owl vs early bird
+- [ ] numbers and instances of typos in commit messages and/or diffs
+- [ ] night owl vs early bird (who is the most expreme night out/early bird (multiple committer) or is the author a night owl/early bird (single committer))
 - [ ] conventional commits
   - ratio between feat, fix, refactor, etc types and also compared to average projects - only if all commits follow the conventional commit style
-  - barchart of scopes
+  - piechart of scopes
   - instances of breaking changes
 
 ## File structure
