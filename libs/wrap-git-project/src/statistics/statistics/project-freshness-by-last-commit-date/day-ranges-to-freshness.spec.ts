@@ -9,28 +9,22 @@ describe('calculateProjectFreshness', () => {
       {
         range: { min: 0, max: 1 },
         freshness: {
-          label: NES.unsafeFromString('too fresh'),
-          description: O.none,
-          buildFunFacts: () => [],
-          charts: [],
+          claim: NES.unsafeFromString('too fresh'),
+          source: NES.unsafeFromString('source 1'),
         },
       },
       {
         range: { min: 2, max: 4 },
         freshness: {
-          label: NES.unsafeFromString('just right'),
-          description: O.none,
-          buildFunFacts: () => [],
-          charts: [],
+          claim: NES.unsafeFromString('just right'),
+          source: NES.unsafeFromString('source 2'),
         },
       },
       {
         range: { min: 5, max: 100 },
         freshness: {
-          label: NES.unsafeFromString('just right'),
-          description: O.none,
-          buildFunFacts: () => [],
-          charts: [],
+          claim: NES.unsafeFromString('just right'),
+          source: NES.unsafeFromString('source 3'),
         },
       },
     ]
@@ -48,28 +42,22 @@ describe('calculateProjectFreshness', () => {
       {
         range: { min: 0, max: 1 },
         freshness: {
-          label: NES.unsafeFromString('too fresh'),
-          description: O.none,
-          buildFunFacts: () => [],
-          charts: [],
+          claim: NES.unsafeFromString('too fresh'),
+          source: NES.unsafeFromString('source 1'),
         },
       },
       {
         range: { min: 2, max: 4 },
         freshness: {
-          label: NES.unsafeFromString('just right'),
-          description: O.none,
-          buildFunFacts: () => [],
-          charts: [],
+          claim: NES.unsafeFromString('just right'),
+          source: NES.unsafeFromString('source 2'),
         },
       },
       {
         range: { min: 5, max: 100 },
         freshness: {
-          label: NES.unsafeFromString('just right'),
-          description: O.none,
-          buildFunFacts: () => [],
-          charts: [],
+          claim: NES.unsafeFromString('just right'),
+          source: NES.unsafeFromString('source 3'),
         },
       },
     ]

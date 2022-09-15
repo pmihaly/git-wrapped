@@ -32,9 +32,10 @@ export const projectFreshnessByLastCommitDate =
       IOO.chain(({ lastCommitterName, lastCommittedAt, daysSinceLastCommit, projectFreshness }) =>
         IOO.of({
           name: NES.unsafeFromString('Project freshness by last commit date'),
-          headline: NES.unsafeFromString(`Your project is **${projectFreshness.label}**`),
+          headline: NES.unsafeFromString(`Your project is **${projectFreshness.claim}**`),
           text: pipe(
-            'Last committed ',
+            `Source: ${projectFreshness.source}, `,
+            S.append('last committed '),
             S.append(`**${formatDistance(lastCommittedAt, currentDate, { addSuffix: true })}** `),
             S.append(`by ${lastCommitterName}. `),
             S.append(`*(as of ${formatISO9075(currentDate)})*`),
