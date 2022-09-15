@@ -27,7 +27,7 @@
     - Frontend randomly picks X% of confetti enabled statistics and merges them evenly with nonConfettiStats:
       `mergeEvenly nonConfettiStats confettiStats = zipWith (flatten . RA.append) (chunksOf (size confettiStats) nonConfettiStats) (RA.of confettiStats)`
     - https://www.npmjs.com/package/react-canvas-confetti with "Realistic" example or https://www.npmjs.com/package/react-confetti-explosion
-  - Card hover perspecive effect on charts - https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/card
+  - Parallax tilt effect on charts https://www.npmjs.com/package/react-parallax-tilt
   - https://www.npmjs.com/package/react-locomotive-scroll
 
 ## TODO Statistics
