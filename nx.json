@@ -2,7 +2,7 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "git-wrapped",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "master"
   },
   "tasksRunnerOptions": {
     "default": {
