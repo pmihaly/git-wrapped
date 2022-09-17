@@ -19,7 +19,7 @@ export const GradientMarkdownText: React.FC<GradientMarkdownTextProps> = ({
 }) => (
   <MarkdownText
     bold={({ children }) => (
-      <Text weight="extrabold" css={{ textGradient, display: 'inline' }} {...textProps} {...gradientTextProps}>
+      <Text weight="extrabold" b css={{ textGradient, display: 'inline' }} {...textProps} {...gradientTextProps}>
         {children}
       </Text>
     )}

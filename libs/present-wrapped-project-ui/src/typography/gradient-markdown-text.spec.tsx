@@ -41,4 +41,14 @@ describe('GradientMarkdownText', () => {
 
     expect(screen.getAllByRole('presentation').length).toBe(2)
   })
+
+  it('should render bold text as <b> by default', () => {
+    const { container } = render(
+      <GradientMarkdownText textGradient={gradient} gradientTextProps={{ role: 'presentation' }}>
+        text **bold text** text
+      </GradientMarkdownText>
+    )
+
+    expect(container.querySelector('b')).toStrictEqual(screen.getByRole('presentation'))
+  })
 })
