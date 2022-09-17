@@ -19,8 +19,9 @@
 
 - Style
   - Random color (randomly picks dark or light theme, randomly picks a color from netxui palette to use as a 'primary' color)
-  - Blurred & animated blob background
-    - Randomly picked by the primary color from https://app.haikei.app/ + blur
+  - Basic 3D shapes with parallax scrolling
+    - Like this https://codesandbox.io/s/scroll-based-animation-nqhw4
+    - https://github.com/pmndrs/react-three-a11y for buttons
   - Confetti
     - Statistics have an optional achievementHeadline, congratulating the user for an achievement - "You have successfully resisted the urge to swear in 80% of commit messages"
     - Statistics with achievementHeadline can be displayed with confettis
