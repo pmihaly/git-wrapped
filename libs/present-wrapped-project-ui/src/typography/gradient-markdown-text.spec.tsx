@@ -41,12 +41,4 @@ describe('GradientMarkdownText', () => {
 
     expect(screen.getAllByRole('presentation').length).toBe(2)
   })
-
-  it('should make gradient bold by default', () => {
-    const { container } = render(
-      <GradientMarkdownText textGradient={gradient}>text **bold text** text</GradientMarkdownText>
-    )
-
-    expect(container.querySelector('b')?.textContent).toBe('bold text')
-  })
 })
