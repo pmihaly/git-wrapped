@@ -45,7 +45,15 @@ export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
   headline: NES.unsafeFromString('Test statistic with **a value**'),
   text: O.some(
     NES.unsafeFromString(
-      'Consectetur aliquam nulla eaque rem nemo? Dicta ex inventore id officia rerum Nam consequatur natus animi corporis optio asperiores. Doloribus recusandae repellat beatae quaerat deserunt? Facere reprehenderit et doloribus quod quia? Officia explicabo consequatur repudiandae veniam corporis saepe quis ad. Laborum elit libero dolor corrupti voluptatibus Accusantium ipsa recusandae fuga doloremque harum soluta similique. Deserunt sed suscipit sunt autem doloremque. Quo et a amet excepturi officiis. Optio nihil voluptates expedita beatae unde iure. Perspiciatis recusandae corrupti iusto distinctio alias, nesciunt! Ipsa adipisci magni libero voluptatem totam Similique et magni aperiam optio harum. Facilis neque hic autem deleniti ipsa? Ut animi.'
+      `Ille lunae, **tempus simus** patiensque nostra iam iam hominis, exstat culmen,
+ambo nata. Vipereis et Festa occurrensque Ammon, colubris poscenti tinnulaque
+vitta, male isto et ferebam gurgite easdem et ignisque *Tyria*.
+
+Firmo **in cincta et** gesserit fratribus lingua sparsit, et manus. Est sum
+dexterior rabiem o caelum in nomina et, ossa. Tunc orbe inventus: manus in est
+[vocas](http://munus-fueritque.io/levem) dedit, per ipso cesserunt, gratissima
+anguis huius dextraque, vastum. Rivos partes primum et non quoque, male ceditque
+colorem!`
     )
   ),
   funFacts: [
