@@ -9,7 +9,7 @@ import { get } from 'spectacles-ts'
 import {
   DayRangesToFreshness,
   calculateProjectFreshness,
-  getFreshnessRelativeToOtherProjectsFunFact,
+  freshnessOfOss,
   getGenerationsOfBananasOutlivedFunFact,
 } from '.'
 import { CreateStatisticFrom } from '../..'
@@ -41,10 +41,7 @@ export const projectFreshnessByLastCommitDate =
             S.append(`*(as of ${formatISO9075(currentDate)})*`),
             NES.fromString
           ),
-          funFacts: [
-            getGenerationsOfBananasOutlivedFunFact(daysSinceLastCommit),
-            getFreshnessRelativeToOtherProjectsFunFact(),
-          ],
+          funFacts: [getGenerationsOfBananasOutlivedFunFact(daysSinceLastCommit), freshnessOfOss],
         })
       )
     )
