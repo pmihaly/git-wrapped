@@ -24,6 +24,15 @@ export type FunFact = WithSource<{
   chart: O.Option<Chart>
 }>
 
+export const createFakeFunFact = (f: Partial<FunFact>): FunFact => ({
+  ...withFakeSource()({
+    headline: NES.fromString('Fun fact headline 1'),
+    text: NES.fromString('Fun fact text 1'),
+    chart: O.none,
+  }),
+  ...f,
+})
+
 export type Statistic = {
   name: NES.NonEmptyString
   headline: NES.NonEmptyString
@@ -40,20 +49,26 @@ export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
     )
   ),
   funFacts: [
-    withFakeSource()({
-      headline: NES.fromString('Fun fact headline 1'),
-      text: NES.fromString('Fun fact text 1'),
-      chart: O.none,
+    createFakeFunFact({
+      claim: {
+        headline: NES.fromString('Fun fact headline 1'),
+        text: NES.fromString('Fun fact text 1'),
+        chart: O.none,
+      },
     }),
-    withFakeSource()({
-      headline: NES.fromString('Fun fact headline 2'),
-      text: O.none,
-      chart: O.of(createFakeChart({})),
+    createFakeFunFact({
+      claim: {
+        headline: NES.fromString('Fun fact headline 2'),
+        text: O.none,
+        chart: O.of(createFakeChart({})),
+      },
     }),
-    withFakeSource()({
-      headline: O.none,
-      text: NES.fromString('Fun fact text 3'),
-      chart: O.of(createFakeChart({})),
+    createFakeFunFact({
+      claim: {
+        headline: O.none,
+        text: NES.fromString('Fun fact text 3'),
+        chart: O.of(createFakeChart({})),
+      },
     }),
   ],
   ...s,
