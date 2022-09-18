@@ -51,14 +51,14 @@ export const createFakeStatistic = (s: Partial<Statistic>): Statistic => ({
   funFacts: [
     createFakeFunFact({
       claim: {
-        headline: NES.fromString('Fun fact headline 1'),
+        headline: NES.fromString('Fun fact **headline 1**'),
         text: NES.fromString('Fun fact text 1'),
         chart: O.none,
       },
     }),
     createFakeFunFact({
       claim: {
-        headline: NES.fromString('Fun fact headline 2'),
+        headline: NES.fromString('Fun fact **headline 2**'),
         text: O.none,
         chart: O.of(createFakeChart({})),
       },
