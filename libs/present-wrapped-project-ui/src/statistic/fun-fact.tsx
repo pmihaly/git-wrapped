@@ -12,7 +12,7 @@ export const FunFact: React.FC<FunFactProps> = ({ theme, funFact, headlineProps 
       funFact.claim.headline,
       O.match(constant(null), (text) => (
         <GradientMarkdownText
-          textProps={{ h1: true }}
+          normalTextProps={{ h2: true }}
           textGradient={NES.toString(theme.textGradient)}
           {...headlineProps}
           children={NES.toString(text)}
