@@ -1,6 +1,10 @@
 import { createFakeChart } from '@git-wrapped/wrap-git-project'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import * as STS from 'fp-ts-std/String'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+import { get } from 'spectacles-ts'
 
 import { Chart } from '.'
 
@@ -12,6 +16,17 @@ const MockChartJs: any = ({ type, data }: any) => (
         <li key={`label-${i}`} aria-label="label">
           {l}
         </li>
+      ))}
+    </ul>
+    <ul>
+      {data.datasets.map((ds: any, i: number) => (
+        <ul key={`dataset-${i}`} aria-label="dataset">
+          {ds.data.map((d: number) => (
+            <li key={`data-${d}`} aria-label="data">
+              {d}
+            </li>
+          ))}
+        </ul>
       ))}
     </ul>
   </>
@@ -42,5 +57,27 @@ describe('Chart', () => {
     const labels = screen.getAllByLabelText('label').map((x) => x.textContent)
 
     expect(labels).toStrictEqual(chart.labels)
+  })
+
+  it('should display datasets of a chart', () => {
+    const chart = createFakeChart({})
+
+    render(<Chart chartJs={MockChartJs} chart={chart} />)
+
+    const datasets = screen.getAllByLabelText('dataset')
+    expect(datasets.length).toBe(chart.labels.length)
+  })
+
+  it('should display all data of all datasets', () => {
+    const chart = createFakeChart({})
+    const chartData = pipe(chart, get('datasets.[]>.data'), ([x, y]) => [x, y], RA.flatten, RA.map(STS.fromNumber))
+
+    render(<Chart chartJs={MockChartJs} chart={chart} />)
+
+    const renderedData = pipe(
+      screen.getAllByLabelText('data'),
+      RA.map((x) => x.textContent)
+    )
+    expect(renderedData).toStrictEqual(chartData)
   })
 })
