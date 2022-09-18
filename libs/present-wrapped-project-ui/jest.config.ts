@@ -3,7 +3,7 @@ export default {
   displayName: 'present-wrapped-project-ui',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]sx?$': 'babel-jest',
+    '^.+\\.[tj]sx?$': ['babel-jest', { cwd: __dirname }],
   },
   moduleNameMapper: {
     'react-markdown': '<rootDir>/../../node_modules/react-markdown/react-markdown.min.js',
