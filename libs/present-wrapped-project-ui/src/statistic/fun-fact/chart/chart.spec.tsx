@@ -36,7 +36,7 @@ describe('Chart', () => {
   it('should display a chart of given type', () => {
     const chart = createFakeChart({ type: 'radar' })
 
-    render(<Chart chartJsReact={MockChartJs} chart={chart} />)
+    render(<Chart reactChartJs={MockChartJs} chart={chart} />)
 
     expect(screen.getByLabelText('type')).toHaveTextContent('radar')
   })
@@ -44,7 +44,7 @@ describe('Chart', () => {
   it('should convert area type to line', () => {
     const chart = createFakeChart({ type: 'area' })
 
-    render(<Chart chartJsReact={MockChartJs} chart={chart} />)
+    render(<Chart reactChartJs={MockChartJs} chart={chart} />)
 
     expect(screen.getByLabelText('type')).toHaveTextContent('line')
   })
@@ -52,7 +52,7 @@ describe('Chart', () => {
   it('should display labels of a chart', () => {
     const chart = createFakeChart({})
 
-    render(<Chart chartJsReact={MockChartJs} chart={chart} />)
+    render(<Chart reactChartJs={MockChartJs} chart={chart} />)
 
     const labels = screen.getAllByLabelText('label').map((x) => x.textContent)
 
@@ -62,7 +62,7 @@ describe('Chart', () => {
   it('should display datasets of a chart', () => {
     const chart = createFakeChart({})
 
-    render(<Chart chartJsReact={MockChartJs} chart={chart} />)
+    render(<Chart reactChartJs={MockChartJs} chart={chart} />)
 
     const datasets = screen.getAllByLabelText('dataset')
     expect(datasets.length).toBe(chart.labels.length)
@@ -72,7 +72,7 @@ describe('Chart', () => {
     const chart = createFakeChart({})
     const chartData = pipe(chart, get('datasets.[]>.data'), ([x, y]) => [x, y], RA.flatten, RA.map(STS.fromNumber))
 
-    render(<Chart chartJsReact={MockChartJs} chart={chart} />)
+    render(<Chart reactChartJs={MockChartJs} chart={chart} />)
 
     const renderedData = pipe(
       screen.getAllByLabelText('data'),
@@ -90,7 +90,7 @@ describe('Chart', () => {
       register: jest.fn(),
     }
 
-    render(<Chart chartJsReact={MockChartJs} chartJsComponents={[component]} chartJs={chartJs} chart={chart} />)
+    render(<Chart reactChartJs={MockChartJs} chartJsComponents={[component]} chartJs={chartJs} chart={chart} />)
 
     expect(chartJs.register).toHaveBeenCalledWith(component)
   })

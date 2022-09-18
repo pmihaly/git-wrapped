@@ -14,16 +14,16 @@ const toChartJsDataset: (ds: Dataset) => ChartDataset = (ds) => ({
 })
 
 export type ChartProps = {
-  chartJsReact: typeof ReactChartJs
+  reactChartJs: typeof ReactChartJs
   chartJsComponents?: ChartComponentLike[]
   chartJs?: typeof ChartJs
   chart: ChartModel
 }
-export const Chart: React.FC<ChartProps> = ({ chartJsReact: ChartJsReact, chart, chartJs, chartJsComponents }) => {
+export const Chart: React.FC<ChartProps> = ({ reactChartJs: ReactChartJs, chart, chartJs, chartJsComponents }) => {
   useMemo(() => chartJsComponents && chartJs?.register(...chartJsComponents), [chartJsComponents, chartJs])
 
   return (
-    <ChartJsReact
+    <ReactChartJs
       type={toChartJsType(chart.type)}
       data={{
         labels: pipe(chart.labels, RNEA.map(NES.toString), RA.toArray),
