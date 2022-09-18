@@ -18,7 +18,7 @@ export type ChartType = typeof chartTypes[number]
 
 type Label = NES.NonEmptyString
 
-type Dataset = {
+export type Dataset = {
   label: NES.NonEmptyString
   data: RNEA.ReadonlyNonEmptyArray<number>
 }

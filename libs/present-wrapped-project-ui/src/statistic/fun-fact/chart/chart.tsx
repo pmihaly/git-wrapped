@@ -1,4 +1,4 @@
-import { Chart as ChartModel, ChartType } from '@git-wrapped/wrap-git-project'
+import { Chart as ChartModel, ChartType, Dataset } from '@git-wrapped/wrap-git-project'
 import { ChartDataset, ChartType as ChartJsType } from 'chart.js'
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as RA from 'fp-ts/ReadonlyArray'
@@ -7,7 +7,7 @@ import { pipe } from 'fp-ts/lib/function'
 import { Chart as ReactChartJs } from 'react-chartjs-2'
 
 const toChartJsType: (c: ChartType) => ChartJsType = (c) => (c === 'area' ? 'line' : c)
-const toChartJsDataset: (ds: ChartModel['datasets'][number]) => ChartDataset = (ds) => ({
+const toChartJsDataset: (ds: Dataset) => ChartDataset = (ds) => ({
   label: NES.toString(ds.label),
   data: RA.toArray(ds.data),
 })
