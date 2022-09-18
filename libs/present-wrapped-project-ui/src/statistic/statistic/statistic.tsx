@@ -1,12 +1,11 @@
 import { Statistic as StatisticModel } from '@git-wrapped/wrap-git-project'
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
-import { constant, pipe } from 'fp-ts/function'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { constant, pipe } from 'fp-ts/function'
 
-import { Theme } from '..'
-import { GradientMarkdownText, GradientMarkdownTextProps } from '../typography'
-import { FunFact, FunFactProps } from './fun-fact'
+import { FunFact, FunFactProps } from '..'
+import { GradientMarkdownText, GradientMarkdownTextProps, Theme } from '../..'
 
 export type StatisticProps = {
   statistic: StatisticModel

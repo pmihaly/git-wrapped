@@ -4,7 +4,7 @@ import * as O from 'fp-ts/Option'
 import { constant, pipe } from 'fp-ts/function'
 import { useMemo } from 'react'
 
-import { GradientMarkdownText, GradientMarkdownTextProps, Theme } from '..'
+import { GradientMarkdownText, GradientMarkdownTextProps, Theme } from '../..'
 
 export type FunFactProps = {
   theme: Theme

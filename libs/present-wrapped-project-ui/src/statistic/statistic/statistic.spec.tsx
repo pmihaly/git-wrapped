@@ -7,7 +7,7 @@ import { constant, flow } from 'fp-ts/lib/function'
 import * as S from 'fp-ts/string'
 
 import { Statistic } from '.'
-import { createFakeTheme } from '../theme'
+import { createFakeTheme } from '../..'
 
 const fromMarkdownNES = flow(NES.toString, S.replace(/\*\*/g, ''))
 const fromOptionMarkdownNES = flow(O.getOrElse(constant(NES.unsafeFromString('no text defined'))), fromMarkdownNES)

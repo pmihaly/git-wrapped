@@ -5,7 +5,7 @@ import * as NES from 'fp-ts-std/NonEmptyString'
 import * as O from 'fp-ts/Option'
 
 import { FunFact } from '.'
-import { createFakeTheme } from '..'
+import { createFakeTheme } from '../..'
 
 describe('FunFact', () => {
   describe('headline', () => {
