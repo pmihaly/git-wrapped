@@ -1,4 +1,4 @@
-import { createFakeStatistic } from '@git-wrapped/wrap-git-project'
+import { createFakeFunFact, createFakeStatistic } from '@git-wrapped/wrap-git-project'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import * as NES from 'fp-ts-std/NonEmptyString'
@@ -55,6 +55,41 @@ describe('Statistic', () => {
       )
 
       expect(screen.queryByRole('presentation')).toBeNull()
+    })
+  })
+
+  describe('fun facts', () => {
+    it('should display all fun facts', () => {
+      const statistic = createFakeStatistic({
+        funFacts: [
+          createFakeFunFact({
+            claim: {
+              headline: NES.fromString('Fun fact headline 1'),
+              text: NES.fromString('Fun fact text 1'),
+              chart: O.none,
+            },
+          }),
+          createFakeFunFact({
+            claim: {
+              headline: NES.fromString('Fun fact headline 2'),
+              text: O.none,
+              chart: O.none,
+            },
+          }),
+        ],
+      })
+
+      render(
+        <Statistic
+          theme={createFakeTheme({})}
+          statistic={statistic}
+          funFactsProps={{ headlineProps: { textProps: { role: 'presentation' } } }}
+        />
+      )
+
+      const funFactHeadlines = screen.getAllByRole('presentation').map((x) => x.textContent)
+
+      expect(funFactHeadlines).toStrictEqual(['Fun fact headline 1', 'Fun fact headline 2'])
     })
   })
 })
