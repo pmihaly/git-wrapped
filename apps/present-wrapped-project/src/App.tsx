@@ -1,8 +1,8 @@
-import { HelloWorldLogic } from '@git-wrapped/present-wrapped-project-logic'
-import { HelloWorld, UiProvider } from '@git-wrapped/present-wrapped-project-ui'
+import { Statistic, UiProvider, createFakeTheme } from '@git-wrapped/present-wrapped-project-ui'
+import { createFakeStatistic } from '@git-wrapped/wrap-git-project'
 
 export const App: React.FC = () => (
   <UiProvider>
-    <HelloWorldLogic helloWorldUi={<HelloWorld />} />
+    <Statistic theme={createFakeTheme({})} statistic={createFakeStatistic({})} />
   </UiProvider>
 )
