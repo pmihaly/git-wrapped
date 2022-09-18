@@ -8,35 +8,79 @@ import { FunFact } from '.'
 import { createFakeTheme } from '..'
 
 describe('FunFact', () => {
-  it('should display headline if given', () => {
-    const funFact = createFakeFunFact({
-      claim: {
-        headline: O.some(NES.unsafeFromString('test headline')),
-        text: O.none,
-        chart: O.none,
-      },
+  describe('headline', () => {
+    it('should display headline if given', () => {
+      const funFact = createFakeFunFact({
+        claim: {
+          headline: O.some(NES.unsafeFromString('test headline')),
+          text: O.none,
+          chart: O.none,
+        },
+      })
+
+      render(
+        <FunFact
+          theme={createFakeTheme({})}
+          funFact={funFact}
+          headlineProps={{ textProps: { role: 'presentation' } }}
+        />
+      )
+
+      expect(screen.getByRole('presentation')).toHaveTextContent('test headline')
     })
 
-    render(
-      <FunFact theme={createFakeTheme({})} funFact={funFact} headlineProps={{ textProps: { role: 'presentation' } }} />
-    )
+    it('should not display headline if not given', () => {
+      const funFact = createFakeFunFact({
+        claim: {
+          headline: O.none,
+          text: O.none,
+          chart: O.none,
+        },
+      })
 
-    expect(screen.getByRole('presentation')).toHaveTextContent('test headline')
+      render(
+        <FunFact
+          theme={createFakeTheme({})}
+          funFact={funFact}
+          headlineProps={{ textProps: { role: 'presentation' } }}
+        />
+      )
+
+      expect(screen.queryByRole('presentation')).toBeNull()
+    })
   })
 
-  it('should not display headline if not given', () => {
-    const funFact = createFakeFunFact({
-      claim: {
-        headline: O.none,
-        text: O.none,
-        chart: O.none,
-      },
+  describe('text', () => {
+    it('should display the text if given', () => {
+      const funFact = createFakeFunFact({
+        claim: {
+          headline: O.none,
+          text: O.some(NES.unsafeFromString('test text')),
+          chart: O.none,
+        },
+      })
+
+      render(
+        <FunFact theme={createFakeTheme({})} funFact={funFact} textProps={{ textProps: { role: 'presentation' } }} />
+      )
+
+      expect(screen.getByRole('presentation')).toHaveTextContent('test text')
     })
 
-    render(
-      <FunFact theme={createFakeTheme({})} funFact={funFact} headlineProps={{ textProps: { role: 'presentation' } }} />
-    )
+    it('should not display the text if not given', () => {
+      const funFact = createFakeFunFact({
+        claim: {
+          headline: O.none,
+          text: O.none,
+          chart: O.none,
+        },
+      })
 
-    expect(screen.queryByRole('presentation')).toBeNull()
+      render(
+        <FunFact theme={createFakeTheme({})} funFact={funFact} textProps={{ textProps: { role: 'presentation' } }} />
+      )
+
+      expect(screen.queryByRole('presentation')).toBeNull()
+    })
   })
 })
