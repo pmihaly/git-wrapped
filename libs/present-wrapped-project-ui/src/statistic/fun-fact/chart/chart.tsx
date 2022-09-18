@@ -1,5 +1,4 @@
 import { Chart as ChartModel, ChartType } from '@git-wrapped/wrap-git-project'
-import { TextProps } from '@nextui-org/react'
 import { ChartDataset, ChartType as ChartJsType } from 'chart.js'
 import * as NES from 'fp-ts-std/NonEmptyString'
 import * as RA from 'fp-ts/ReadonlyArray'
@@ -13,7 +12,7 @@ const toChartJsDataset: (ds: ChartModel['datasets'][number]) => ChartDataset = (
   data: RA.toArray(ds.data),
 })
 
-export type ChartProps = { chartJs: typeof ReactChartJs; chart: ChartModel; labelsProps?: TextProps }
+export type ChartProps = { chartJs: typeof ReactChartJs; chart: ChartModel }
 export const Chart: React.FC<ChartProps> = ({ chartJs: ChartJs, chart }) => (
   <ChartJs
     type={toChartJsType(chart.type)}
