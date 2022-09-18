@@ -20,12 +20,12 @@ export const getFreshnessRelativeToOtherProjectsFunFact = (): FunFact => ({
       datasets: [
         {
           type: 'area',
-          label: O.of(NES.unsafeFromString('% of projects abandoned (0.1 = 10%)')),
+          label: NES.unsafeFromString('% of projects abandoned (0.1 = 10%)'),
           data: [0.16, 0.22, 0.38, 0.4, 0.44, 0.58, 0.7, 0.82, 0.99, 1, 1, 1],
         },
         {
           type: 'bar',
-          label: O.of(NES.unsafeFromString('This project')),
+          label: NES.unsafeFromString('This project'),
           data: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         },
       ],

@@ -17,8 +17,8 @@ describe('Chart', () => {
       const toCreate = createFakeChart({
         labels: [NES.unsafeFromString('label 1'), NES.unsafeFromString('label 2')],
         datasets: [
-          { type: 'bar', label: O.of(NES.unsafeFromString('bar label 1')), data: [1, 2] },
-          { type: 'bar', label: O.of(NES.unsafeFromString('bar label 1')), data: [3] },
+          { type: 'bar', label: NES.unsafeFromString('bar label 1'), data: [1, 2] },
+          { type: 'bar', label: NES.unsafeFromString('bar label 1'), data: [3] },
         ],
       })
 
