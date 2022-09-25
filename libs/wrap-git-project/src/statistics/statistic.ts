@@ -6,21 +6,6 @@ import { constant, flow } from 'fp-ts/function'
 
 import { Chart, GitRepo, WithSource, createFakeChart, withFakeSource } from '..'
 
-export type FunFact = WithSource<{
-  headline: O.Option<NES.NonEmptyString>
-  text: O.Option<NES.NonEmptyString>
-  chart: O.Option<Chart>
-}>
-
-export const createFakeFunFact = (f: Partial<FunFact>): FunFact => ({
-  ...withFakeSource()({
-    headline: NES.fromString('Fun fact headline 1'),
-    text: NES.fromString('Fun fact text 1'),
-    chart: O.none,
-  }),
-  ...f,
-})
-
 export type Statistic = {
   name: NES.NonEmptyString
   headline: NES.NonEmptyString
@@ -68,6 +53,21 @@ colorem!`
     }),
   ],
   ...s,
+})
+
+export type FunFact = WithSource<{
+  headline: O.Option<NES.NonEmptyString>
+  text: O.Option<NES.NonEmptyString>
+  chart: O.Option<Chart>
+}>
+
+export const createFakeFunFact = (f: Partial<FunFact>): FunFact => ({
+  ...withFakeSource()({
+    headline: NES.fromString('Fun fact headline 1'),
+    text: NES.fromString('Fun fact text 1'),
+    chart: O.none,
+  }),
+  ...f,
 })
 
 export type CreateStatisticFrom<T> = (t: T) => IOO.IOOption<Statistic>
