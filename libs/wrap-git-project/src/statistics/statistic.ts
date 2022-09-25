@@ -4,19 +4,7 @@ import * as O from 'fp-ts/Option'
 import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import { constant, flow } from 'fp-ts/function'
 
-import { Chart, GitRepo, createFakeChart } from '..'
-
-export type WithSource<T> = {
-  claim: T
-  source: NES.NonEmptyString
-}
-
-const withFakeSource =
-  (source: NES.NonEmptyString = NES.unsafeFromString('test source')) =>
-  <T>(claim: T): WithSource<T> => ({
-    claim,
-    source,
-  })
+import { Chart, GitRepo, WithSource, createFakeChart, withFakeSource } from '..'
 
 export type FunFact = WithSource<{
   headline: O.Option<NES.NonEmptyString>
